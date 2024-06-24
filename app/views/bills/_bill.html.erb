@@ -15,6 +15,11 @@
   </p>
 
   <p>
+    <strong>Tipo proyecto:</strong>
+    <%= bill.tipo_proyecto %>
+  </p>
+
+  <p>
     <strong>Fecha llegada recepcion:</strong>
     <%= bill.fecha_llegada_recepcion %>
   </p>
@@ -27,6 +32,11 @@
   <p>
     <strong>Fecha entrega sst:</strong>
     <%= bill.fecha_entrega_sst.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
+  </p>
+
+  <p>
+    <strong>Segunda entrega Compras:</strong>
+    <%= bill.compras_segunda_fecha.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
   </p>
 
   <p>
@@ -54,9 +64,5 @@
     <%= bill.state_sst.try(:nombre) || 'En proceso.' %>
   </p>
 
-  <p>
-    <strong>Tipo proyecto:</strong>
-    <%= bill.tipo_proyecto %>
-  </p>
 
 </div>
