@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @general_state %>
+
+<div>
+  <%= link_to "Edit this general state", edit_general_state_path(@general_state) %> |
+  <%= link_to "Back to general states", general_states_path %>
+
+  <%= button_to "Destroy this general state", @general_state, method: :delete %>
+</div>

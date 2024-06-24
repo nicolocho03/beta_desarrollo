@@ -1,0 +1,50 @@
+<h1>Crear Factura</h1>
+
+<%= form_with(model: @bill, local: true) do |form| %>
+  <% if @bill.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bill.errors.count, "error") %> prohibited this bill from being saved:</h2>
+      <ul>
+        <% @bill.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :radicado %>
+    <%= form.text_field :radicado %>
+  </div>
+
+  <div class="field">
+    <%= form.label :SAO %>
+    <%= form.text_field :SAO %>
+  </div>
+
+  <div class="field">
+    <%= form.label :numero_factura %>
+    <%= form.text_field :numero_factura %>
+  </div>
+  
+   <div class="field">
+    <%= form.label :tipo_proyecto%>
+    <%= form.text_field :tipo_proyecto %>
+  </div>
+
+  <div class="field">
+    <%= form.label :fecha_llegada_recepcion %>
+    <%= form.date_select :fecha_llegada_recepcion %>
+  </div>
+
+  <div class="field">
+    <%= form.label :fecha_entrega_compras%>
+    <%= form.date_select :fecha_entrega_compras %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Crear Factura" %>
+  </div>
+
+  
+<% end %>

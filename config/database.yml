@@ -1,0 +1,22 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: "Develop3r_JR!"
+  host: localhost
+
+development:
+  <<: *default
+  database: beta_desarrollo
+
+#test:
+  #<<: *default
+  #database: music_app
+
+#production:
+  #<<: *default
+  #database: music_app
+  #username: root
+  #password: <%= ENV['Develop3r_JR!'] %>
+  #host: producción_host

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @specific_state %>
+
+<div>
+  <%= link_to "Edit this specific state", edit_specific_state_path(@specific_state) %> |
+  <%= link_to "Back to specific states", specific_states_path %>
+
+  <%= button_to "Destroy this specific state", @specific_state, method: :delete %>
+</div>

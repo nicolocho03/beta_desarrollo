@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  radicado: MyString
+  SAO: MyString
+  numero_factura: MyString
+  fecha_llegada_recepcion: 2024-06-17
+  fecha_entrega_compras: 2024-06-17
+  fecha_entrega_sst: 2024-06-17
+  fecha_entrega_gerencia: 2024-06-17
+  fecha_entrega_contabilidad: 2024-06-17
+  state_gerencia: one
+  state_contabilidad: one
+  state_sst: one
+  tipo_proyecto: MyString
+
+two:
+  radicado: MyString
+  SAO: MyString
+  numero_factura: MyString
+  fecha_llegada_recepcion: 2024-06-17
+  fecha_entrega_compras: 2024-06-17
+  fecha_entrega_sst: 2024-06-17
+  fecha_entrega_gerencia: 2024-06-17
+  fecha_entrega_contabilidad: 2024-06-17
+  state_gerencia: two
+  state_contabilidad: two
+  state_sst: two
+  tipo_proyecto: MyString

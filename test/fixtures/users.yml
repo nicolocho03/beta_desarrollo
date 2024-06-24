@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nombre_usuario: MyString
+  password: MyString
+  ubication: one
+  state: one
+
+two:
+  nombre_usuario: MyString
+  password: MyString
+  ubication: two
+  state: two

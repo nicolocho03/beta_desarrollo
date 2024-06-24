@@ -1,0 +1,62 @@
+<div id="<%= dom_id bill %>">
+  <p>
+    <strong>Radicado:</strong>
+    <%= bill.radicado %>
+  </p>
+
+  <p>
+    <strong>Sao:</strong>
+    <%= bill.SAO %>
+  </p>
+
+  <p>
+    <strong>Numero factura:</strong>
+    <%= bill.numero_factura %>
+  </p>
+
+  <p>
+    <strong>Fecha llegada recepcion:</strong>
+    <%= bill.fecha_llegada_recepcion %>
+  </p>
+
+  <p>
+    <strong>Fecha entrega compras:</strong>
+    <%= bill.fecha_entrega_compras.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
+  </p>
+
+  <p>
+    <strong>Fecha entrega sst:</strong>
+    <%= bill.fecha_entrega_sst.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
+  </p>
+
+  <p>
+    <strong>Fecha entrega gerencia:</strong>
+    <%= bill.fecha_entrega_gerencia.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
+  </p>
+
+  <p>
+    <strong>Fecha entrega contabilidad:</strong>
+    <%= bill.fecha_entrega_contabilidad.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
+  </p>
+
+  <p>
+    <strong>Estado gerencia:</strong>
+    <%= bill.state_gerencia.try(:nombre) || 'En proceso.' %>
+  </p>
+
+  <p>
+    <strong>State contabilidad:</strong>
+    <%= bill.state_contabilidad.try(:nombre) || 'En proceso.' %>
+  </p>
+
+  <p>
+    <strong>State sst:</strong>
+    <%= bill.state_sst.try(:nombre) || 'En proceso.' %>
+  </p>
+
+  <p>
+    <strong>Tipo proyecto:</strong>
+    <%= bill.tipo_proyecto %>
+  </p>
+
+</div>

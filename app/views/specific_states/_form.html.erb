@@ -1,0 +1,27 @@
+<%= form_with(model: specific_state) do |form| %>
+  <% if specific_state.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(specific_state.errors.count, "error") %> prohibited this specific_state from being saved:</h2>
+
+      <ul>
+        <% specific_state.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :nombre, style: "display: block" %>
+    <%= form.text_field :nombre %>
+  </div>
+
+  <div class="field">
+  <%= form.label :ubication_id, "Ubicación" %>
+  <%= form.collection_select :ubication_id, @ubication_states, :id, :nombre %>
+</div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

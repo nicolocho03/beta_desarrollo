@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>General states</h1>
+
+<div id="general_states">
+  <% @general_states.each do |general_state| %>
+    <%= render general_state %>
+    <p>
+      <%= link_to "Show this general state", general_state %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New general state", new_general_state_path %>

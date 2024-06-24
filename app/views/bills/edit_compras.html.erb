@@ -1,0 +1,13 @@
+<h1>COMPRAS</h1>
+
+<%= form_with(model: @bill, url: update_compras_bill_path(@bill), local: true) do |form| %>
+  <div class="field">
+    <%= form.label :fecha_entrega_sst %>
+    <%= form.date_select :fecha_entrega_sst %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Guardar y Continuar" %>
+  </div>
+
+<% end %>

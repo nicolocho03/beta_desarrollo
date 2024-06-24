@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @ubication %>
+
+<div>
+  <%= link_to "Edit this ubication", edit_ubication_path(@ubication) %> |
+  <%= link_to "Back to ubications", ubications_path %>
+
+  <%= button_to "Destroy this ubication", @ubication, method: :delete %>
+</div>

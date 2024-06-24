@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Specific states</h1>
+
+<div id="specific_states">
+  <% @specific_states.each do |specific_state| %>
+    <%= render specific_state %>
+    <p>
+      <%= link_to "Show this specific state", specific_state %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New specific state", new_specific_state_path %>
