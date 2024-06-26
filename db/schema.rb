@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_17_221418) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_24_201514) do
   create_table "bills", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "radicado"
     t.string "SAO"
@@ -26,6 +26,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_17_221418) do
     t.string "tipo_proyecto"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "compras_segunda_fecha"
     t.index ["state_contabilidad_id"], name: "index_bills_on_state_contabilidad_id"
     t.index ["state_gerencia_id"], name: "index_bills_on_state_gerencia_id"
     t.index ["state_sst_id"], name: "index_bills_on_state_sst_id"

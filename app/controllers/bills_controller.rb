@@ -119,7 +119,7 @@ class BillsController < ApplicationController
       params.require(:bill).permit(:state_gerencia_id)
     end
 
-    #, :fecha_entrega_compras, :fecha_entrega_sst, :fecha_entrega_gerencia, :state_gerencia_id, :fecha_entrega_contabilidad, :state_contabilidad_id, :state_sst_id
+    #, :fecha_entrega_compras, :compras_segunda_fecha, :fecha_entrega_sst, :fecha_entrega_gerencia, :state_gerencia_id, :fecha_entrega_contabilidad, :state_contabilidad_id, :state_sst_id
 
     def set_specific_states
       @specific_states = SpecificState.all
