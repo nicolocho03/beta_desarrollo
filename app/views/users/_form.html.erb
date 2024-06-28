@@ -21,16 +21,16 @@
     <%= form.text_field :password %>
   </div>
 
-  <div>
-    <%= form.label :ubication_id, style: "display: block" %>
-    <%= form.text_field :ubication_id %>
+  <div class="field">
+    <%= form.label :ubication_id, "Ubicación" %>
+    <%= form.collection_select :ubication_id, @ubication_states, :id, :nombre %>
   </div>
 
-  <div>
-    <%= form.label :state_id, style: "display: block" %>
-    <%= form.text_field :state_id %>
+  <div class="field">
+    <%= form.label :state_id, "Estado" %>
+    <%= form.collection_select :state_id, @states, :id, :nombre %>
   </div>
-
+  
   <div>
     <%= form.submit %>
   </div>

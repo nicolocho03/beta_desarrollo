@@ -1,12 +1,12 @@
 class BillsController < ApplicationController
-  before_action :set_bill, only: %i[ show edit update destroy edit_compras update_compras edit_gerencia update_gerencia ]
+  before_action :set_bill, only: %i[ show edit update destroy edit_compras update_compras edit_gerencia update_gerencia edit_sst update_sst edit_compras_segunda_entrega update_compras_segunda_entrega edit_contabilidad update_contabilidad ]
   before_action :set_specific_states, only: %i[new edit create update]
-  before_action :set_contabilidad_states, only: %i[new edit create update]
-  before_action :set_sst_states, only: %i[new edit create update]
+  before_action :set_contabilidad_states, only: %i[new edit create update edit_contabilidad update_contabilidad]
+  before_action :set_sst_states, only: %i[new edit create update edit_sst update_sst]
   before_action :set_gerencia_states, only: %i[new edit create update edit_gerencia update_gerencia ]
 
 
-#Compras, metodos
+#Compras
 
   def edit_compras 
   end
@@ -14,7 +14,7 @@ class BillsController < ApplicationController
   def update_compras
     respond_to do |format|
       if @bill.update(bill_params_compras)
-        format.html { redirect_to bill_url(@bill), notice: "Factura guardada en compras." }
+        format.html { redirect_to bill_url(@bill), notice: "Factura guardada en compras y enviada a SST." }
         format.json { render :show, status: :ok, location: @bill }
       else
         format.html { render :edit_compras, status: :unprocessable_entity }
@@ -22,6 +22,39 @@ class BillsController < ApplicationController
       end
     end
   end
+
+  def edit_compras_segunda_entrega
+  end
+
+  def update_compras_segunda_entrega
+    respond_to do |format|
+      if @bill.update(bill_params_compras_segunda_entrega)
+        format.html { redirect_to bill_url(@bill), notice: "Factura guardada en compras y enviada a Gerencia." }
+        format.json { render :show, status: :ok, location: @bill }
+      else
+        format.html { render :edit_compras, status: :unprocessable_entity }
+        format.json { render json: @bill.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+
+#SST 
+
+def edit_sst
+end
+
+def update_sst
+  respond_to do |format|
+    if @bill.update(bill_params_sst)
+      format.html { redirect_to bill_url(@bill), notice: "Factura guardada en SST y enviada una segunda vez a Compras." }
+      format.json { render :show, status: :ok, location: @bill }
+    else
+      format.html { render :edit_gerencia, status: :unprocessable_entity }
+      format.json { render json: @bill.errors, status: :unprocessable_entity }
+    end
+  end
+end
 
 #Gerencia
 
@@ -31,7 +64,24 @@ class BillsController < ApplicationController
   def update_gerencia
     respond_to do |format|
       if @bill.update(bill_params_gerencia)
-        format.html { redirect_to bill_url(@bill), notice: "Factura guardada en Gerencia." }
+        format.html { redirect_to bill_url(@bill), notice: "Factura guardada en Gerencia y enviada a Contabilidad." }
+        format.json { render :show, status: :ok, location: @bill }
+      else
+        format.html { render :edit_gerencia, status: :unprocessable_entity }
+        format.json { render json: @bill.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+#Contabilidad 
+
+  def edit_contabilidad
+  end
+
+  def update_contabilidad
+    respond_to do |format|
+      if @bill.update(bill_params_contabilidad)
+        format.html { redirect_to bill_url(@bill), notice: "Factura finaliza proceso en Contabilidad." }
         format.json { render :show, status: :ok, location: @bill }
       else
         format.html { render :edit_gerencia, status: :unprocessable_entity }
@@ -41,8 +91,6 @@ class BillsController < ApplicationController
   end
 
 
-
-  
   # GET /bills or /bills.json
   def index
     @bills = Bill.all
@@ -68,7 +116,7 @@ class BillsController < ApplicationController
 
     respond_to do |format|
       if @bill.save
-        format.html { redirect_to bill_url(@bill), notice: "Factura Creada." }
+        format.html { redirect_to bill_url(@bill), notice: "Factura Creada y enviada a Compras." }
         format.json { render :show, status: :created, location: @bill }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -115,11 +163,23 @@ class BillsController < ApplicationController
       params.require(:bill).permit(:fecha_entrega_sst)
     end
 
-    def bill_params_gerencia
-      params.require(:bill).permit(:state_gerencia_id)
+    def bill_params_compras_segunda_entrega
+      params.require(:bill).permit(:fecha_entrega_gerencia)
     end
 
-    #, :fecha_entrega_compras, :compras_segunda_fecha, :fecha_entrega_sst, :fecha_entrega_gerencia, :state_gerencia_id, :fecha_entrega_contabilidad, :state_contabilidad_id, :state_sst_id
+    def bill_params_sst
+      params.require(:bill).permit(:compras_segunda_fecha, :state_sst_id)
+    end
+
+    def bill_params_gerencia
+      params.require(:bill).permit(:state_gerencia_id, :fecha_entrega_contabilidad)
+    end
+
+    def bill_params_contabilidad
+      params.require(:bill).permit(:state_contabilidad_id)
+    end 
+
+    #, :fecha_entrega_compras,  :fecha_entrega_gerencia, :state_gerencia_id, :fecha_entrega_contabilidad, :state_contabilidad_id, :state_sst_id
 
     def set_specific_states
       @specific_states = SpecificState.all

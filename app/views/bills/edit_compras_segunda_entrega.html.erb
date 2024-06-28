@@ -1,0 +1,44 @@
+<h1>Compras segunda entrega</h1>
+
+<%= form_with(model: @bill, url: update_compras_segunda_entrega_bill_path(@bill), local: true) do |form| %>
+  
+  <div>
+    <%= form.label :numero_factura, "Numero de Factura:", style: "display: block" %>
+    <div><%= @bill.numero_factura %></div>
+    <%= form.hidden_field :numero_factura, value: @bill.numero_factura %>
+  </div>
+
+<div>
+    <%= form.label :radicado, "Radicado:", style: "display: block" %>
+    <div><%= @bill.radicado %></div>
+    <%= form.hidden_field :radicado, value: @bill.radicado %>
+  </div>
+
+  <div>
+    <%= form.label :SAO, "SAO:", style: "display: block" %>
+    <div><%= @bill.SAO %></div>
+    <%= form.hidden_field :SAO, value: @bill.SAO %>
+  </div>
+
+  <div>
+    <%= form.label :tipo_proyecto, "Proyecto:", style: "display: block" %>
+    <div><%= @bill.tipo_proyecto %></div>
+    <%= form.hidden_field :tipo_proyecto, value: @bill.tipo_proyecto %>
+  </div>
+
+  <div>
+    <%= form.label :compras_segunda_fecha, "Fecha llegada a Compras, segunda entrega:", style: "display: block" %>
+    <div><%= @bill.compras_segunda_fecha %></div>
+    <%= form.hidden_field :compras_segunda_fecha, value: @bill.compras_segunda_fecha %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :fecha_entrega_gerencia %>
+    <%= form.date_select :fecha_entrega_gerencia %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Enviar a Gerencia" %>
+  </div>
+
+<% end %>
