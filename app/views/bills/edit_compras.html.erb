@@ -1,13 +1,44 @@
 <h1>COMPRAS</h1>
 
 <%= form_with(model: @bill, url: update_compras_bill_path(@bill), local: true) do |form| %>
+
+<div>
+    <%= form.label :numero_factura, "Numero de Factura:", style: "display: block" %>
+    <div><%= @bill.numero_factura %></div>
+    <%= form.hidden_field :numero_factura, value: @bill.numero_factura %>
+  </div>
+
+<div>
+    <%= form.label :radicado, "Radicado:", style: "display: block" %>
+    <div><%= @bill.radicado %></div>
+    <%= form.hidden_field :radicado, value: @bill.radicado %>
+  </div>
+
+  <div>
+    <%= form.label :SAO, "SAO:", style: "display: block" %>
+    <div><%= @bill.SAO %></div>
+    <%= form.hidden_field :SAO, value: @bill.SAO %>
+  </div>
+
+  <div>
+    <%= form.label :tipo_proyecto, "Proyecto:", style: "display: block" %>
+    <div><%= @bill.tipo_proyecto %></div>
+    <%= form.hidden_field :tipo_proyecto, value: @bill.tipo_proyecto %>
+  </div>
+
+  <div>
+    <%= form.label :fecha_entrega_compras, "Fecha Llegada a Compras:", style: "display: block" %>
+    <div><%= @bill.fecha_entrega_compras %></div>
+    <%= form.hidden_field :fecha_entrega_compras, value: @bill.fecha_entrega_compras %>
+  </div>
+
   <div class="field">
     <%= form.label :fecha_entrega_sst %>
     <%= form.date_select :fecha_entrega_sst %>
   </div>
 
   <div class="actions">
-    <%= form.submit "Guardar y Continuar" %>
+    <%= form.submit "Enviar a SST" %>
   </div>
 
 <% end %>
