@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :set_ubication_states, only: %i[new edit create update ]
+  before_action :set_states, only: %i[new edit create update ]
 
   # GET /users or /users.json
   def index
@@ -67,4 +69,13 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:nombre_usuario, :password, :ubication_id, :state_id)
     end
+
+    def set_ubication_states
+      @ubication_states = Ubication.where(nombre: ['Recepción','Compras','Gerencia','SST','Contabilidad'])
+    end
+
+    def set_states
+      @states = GeneralState.where(nombre: ['Obra','Oficina']) 
+    end
+
 end

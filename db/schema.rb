@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_24_201514) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_28_042554) do
   create_table "bills", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "radicado"
     t.string "SAO"
@@ -59,6 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_201514) do
     t.bigint "state_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
     t.index ["state_id"], name: "index_users_on_state_id"
     t.index ["ubication_id"], name: "index_users_on_ubication_id"
   end
