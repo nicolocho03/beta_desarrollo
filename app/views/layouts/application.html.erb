@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Redyco Desarrollo</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+  <head>
+    <title>Redyco</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-  <%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-</head>
-<body>
-  <header>
-    <% if logged_in? %>
-      <p>Hola, <%= current_user.nombre_usuario %>!</p>
-      <%= link_to 'Cerrar Sesión', logout_path, method: :delete %>
-    <% else %>
-      <%= link_to 'Iniciar Sesión', root_path %>
-    <% end %>
-  </header>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
 
-  <%= yield %>
-</body>
+  <body>
+    <div class="top-menu">
+      <div class="top-menu__content">
+        <a href="#" class="top-menu__logo">Redyco</a>
+        <nav class="top-menu__nav">
+          <a href="#" class="top-menu__link">Inicio</a>
+        </nav>
+      </div>
+    </div>
+
+    <%= yield %>
+  </body>
 </html>
+
