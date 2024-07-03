@@ -1,18 +1,20 @@
 class SessionsController < ApplicationController
-    def create
-      user = User.find_by(nombre_usuario: params[:user][:nombre_usuario])
-  
-      if user && user.authenticate(params[:user][:password])
-        session[:user_id] = user.id
-        redirect_to root_path, notice: 'Inicio de sesión exitoso.'
-      else
-        flash.now[:alert] = 'Nombre de usuario o contraseña inválidos.'
-        render 'home/index'
-      end
-    end
-  
-    def destroy
-      session[:user_id] = nil
-      redirect_to root_path, notice: 'Sesión cerrada.'
+  def new
+  end
+
+  def create
+    user = User.find_by(nombre_usuario: params[:nombre_usuario])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect_to root_path, notice: 'Logged in!'
+    else
+      flash.now[:alert] = 'Invalid username or password'
+      render :new
     end
   end
+
+  def destroy
+    session[:user_id] = nil
+    redirect_to login_path, notice: 'Logged out!'
+  end
+end
