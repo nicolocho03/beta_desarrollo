@@ -1,2 +1,3 @@
 class GeneralState < ApplicationRecord
+    has_many :users
 end

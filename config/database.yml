@@ -8,7 +8,7 @@ default: &default
 
 development:
   <<: *default
-  database: redyco_prueba
+  database: redyco_bd
 
 #test:
   #<<: *default

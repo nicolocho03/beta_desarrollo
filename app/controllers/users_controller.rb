@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
   before_action :set_ubication_states, only: %i[new edit create update ]
   before_action :set_states, only: %i[new edit create update ]
+  before_action :authenticate_user!
 
   # GET /users or /users.json
   def index
