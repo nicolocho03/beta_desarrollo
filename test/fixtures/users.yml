@@ -2,12 +2,10 @@
 
 one:
   nombre_usuario: MyString
-  password: MyString
-  ubication: one
-  state: one
+  ubication_id: 1
+  state_id: 1
 
 two:
   nombre_usuario: MyString
-  password: MyString
-  ubication: two
-  state: two
+  ubication_id: 1
+  state_id: 1
