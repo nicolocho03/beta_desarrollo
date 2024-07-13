@@ -16,8 +16,17 @@
         <nav class="top-menu__nav">
           <a href="#" class="top-menu__link">Inicio</a>
         </nav>
+        <%= form_tag(destroy_user_session_path, method: :delete) do %>
+       <div class="actions">
+        <%= submit_tag "Cerrar sesión" %>
+      </div>
+      <% end %>
       </div>
     </div>
+
+    <% flash.each do |type, message| %>
+      <div class="flash <%= type %>"><%= message %></div>
+    <% end %>
 
     <%= yield %>
   </body>

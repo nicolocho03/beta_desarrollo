@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_24_201514) do
-  create_table "bills", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2024_07_12_031441) do
+  create_table "bills", charset: "utf8mb3", force: :cascade do |t|
     t.string "radicado"
     t.string "SAO"
     t.string "numero_factura"
@@ -32,13 +32,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_201514) do
     t.index ["state_sst_id"], name: "index_bills_on_state_sst_id"
   end
 
-  create_table "general_states", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "general_states", charset: "utf8mb3", force: :cascade do |t|
     t.string "nombre"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "specific_states", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "specific_states", charset: "utf8mb3", force: :cascade do |t|
     t.string "nombre"
     t.bigint "ubication_id", null: false
     t.datetime "created_at", null: false
@@ -46,27 +46,29 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_201514) do
     t.index ["ubication_id"], name: "index_specific_states_on_ubication_id"
   end
 
-  create_table "ubications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "ubications", charset: "utf8mb3", force: :cascade do |t|
     t.string "nombre"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", charset: "utf8mb3", force: :cascade do |t|
     t.string "nombre_usuario"
-    t.string "password"
-    t.bigint "ubication_id", null: false
-    t.bigint "state_id", null: false
+    t.integer "ubication_id"
+    t.integer "state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["state_id"], name: "index_users_on_state_id"
-    t.index ["ubication_id"], name: "index_users_on_ubication_id"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "bills", "specific_states", column: "state_contabilidad_id"
   add_foreign_key "bills", "specific_states", column: "state_gerencia_id"
   add_foreign_key "bills", "specific_states", column: "state_sst_id"
   add_foreign_key "specific_states", "ubications"
-  add_foreign_key "users", "general_states", column: "state_id"
-  add_foreign_key "users", "ubications"
 end
