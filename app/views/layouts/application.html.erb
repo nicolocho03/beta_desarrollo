@@ -29,6 +29,9 @@
     <% end %>
 
     <%= yield %>
+
+    <%= javascript_include_tag 'bills_permission_alert', 'data-turbolinks-track': 'reload' %>
+
   </body>
 </html>
 

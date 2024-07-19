@@ -1,3 +1,4 @@
+<% if contabilidad_has_access? %>
 <h1>Contabilidad</h1>
 
 <%= form_with(model: @bill, url: update_contabilidad_bill_path(@bill), local: true) do |form| %>
@@ -40,5 +41,8 @@
   <div class="actions">
     <%= form.submit "Finalizar proceso de la Factura" %>
   </div>
+<% end %>
 
+<% else %>
+  <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
 <% end %>
