@@ -1,8 +1,7 @@
+<% if gerencia_has_access? %>
 <h1>Gerencia</h1>
 
-<%= form_with(model: @bill, url: update_gerencia_bill_path(@bill), local: true) do |form| %>
-
-
+  <%= form_with(model: @bill, url: update_gerencia_bill_path(@bill), local: true) do |form| %>
   <div>
     <%= form.label :numero_factura, "Numero de Factura:", style: "display: block" %>
     <div><%= @bill.numero_factura %></div>
@@ -48,4 +47,7 @@
     <%= form.submit "Enviar a Contabilidad" %>
   </div>
 
+  <% end %>
+<% else %>
+  <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
 <% end %>

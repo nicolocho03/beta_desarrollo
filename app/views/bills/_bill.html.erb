@@ -59,10 +59,8 @@
     <%= bill.fecha_entrega_contabilidad.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
   </p>
 
-
   <p>
     <strong>State contabilidad:</strong>
     <%= bill.state_contabilidad.try(:nombre) || 'En proceso.' %>
   </p>
-
 </div>
