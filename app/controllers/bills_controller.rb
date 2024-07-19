@@ -4,7 +4,12 @@ class BillsController < ApplicationController
   before_action :set_contabilidad_states, only: %i[new edit create update edit_contabilidad update_contabilidad]
   before_action :set_sst_states, only: %i[new edit create update edit_sst update_sst]
   before_action :set_gerencia_states, only: %i[new edit create update edit_gerencia update_gerencia ]
-
+  before_action :authenticate_user!
+  before_action :check_access_recepcion, only: [:new , :create]
+  before_action :check_access_compras, only: [:edit_compras]
+  before_action :check_access_sst, only: [:edit_sst]
+  before_action :check_access_gerencia, only: [:edit_gerencia]
+  before_action :check_access_contabilidad, only: [:edit_contabilidad]
 
 #Compras
 
@@ -179,7 +184,7 @@ end
       params.require(:bill).permit(:state_contabilidad_id)
     end 
 
-    #, :fecha_entrega_compras,  :fecha_entrega_gerencia, :state_gerencia_id, :fecha_entrega_contabilidad, :state_contabilidad_id, :state_sst_id
+    
 
     def set_specific_states
       @specific_states = SpecificState.all
@@ -195,5 +200,36 @@ end
 
     def set_contabilidad_states
       @contabilidad_states = SpecificState.where(nombre: ['Causación', 'Pago'])
+    end
+    
+    #Access 
+    def check_access_recepcion
+      unless current_user && current_user.ubication_id == 1
+        redirect_to root_path, alert: "No tienes permiso para acceder a esta página"
+      end
+    end
+  
+    def check_access_compras
+      unless current_user && current_user.ubication_id == 2
+        redirect_to root_path, alert: 'No tienes permiso para acceder a esta vista.'
+      end
+    end
+
+    def check_access_sst
+      unless current_user && current_user.ubication_id == 3 
+        redirect_to root_path, alert: 'No tienes permiso para acceder a esta vista.'
+      end
+    end
+
+    def check_access_gerencia
+      unless current_user && current_user.ubication_id == 4
+        redirect_to root_path, alert: 'No tienes permiso para acceder a esta vista.'
+      end
+    end
+
+    def check_access_contabilidad
+      unless current_user && current_user.ubication_id == 5
+        redirect_to root_path, alert: 'No tienes permiso para acceder a esta vista'
+      end 
     end
 end

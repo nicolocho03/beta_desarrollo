@@ -1,3 +1,4 @@
+<% if sst_has_access? %>
 <h1>SST</h1>
 
 <%= form_with(model: @bill, url: update_sst_bill_path(@bill), local: true) do |form| %>
@@ -47,4 +48,7 @@
     <%= form.submit "Enviar a Compras" %>
   </div>
 
+  <% end %>
+<% else %>
+  <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
 <% end %>
