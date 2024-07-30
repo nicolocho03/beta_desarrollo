@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :sst_has_access?
   helper_method :gerencia_has_access?
   helper_method :contabilidad_has_access?
- 
+  helper_method :current_user_role
 
   protected
 
@@ -33,8 +33,39 @@ class ApplicationController < ActionController::Base
 
   def contabilidad_has_access?
     current_user && current_user.ubication_id == 5
-  end 
+  end
+
+  def current_user_role
+    return "Bienvenido, Inicia Sesión para acceder." unless current_user
+
+    location = case current_user.state_id
+               when 1
+                 "Obra"
+               when 2
+                 "Oficina"
+               else
+                 "Estado no reconocido."
+               end
+
+    role = case current_user.ubication_id
+           when 1
+             "Recepción"
+           when 2
+             "Compras"
+           when 3
+             "SST"
+           when 4
+             "Gerencia"
+           when 5
+             "Contabilidad"
+           else
+             "Ubicación no reconocida."
+           end
+
+    "#{role}/#{location}"
+  end
 end
+
 
 
 

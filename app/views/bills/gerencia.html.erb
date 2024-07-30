@@ -1,0 +1,47 @@
+<% if gerencia_has_access? %>
+<h1>Facturas en SST</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Radicado</th>
+      <th>SAO</th>
+      <th>Número de Factura</th>
+      <th>Tipo de Proyecto</th>
+      <th>Fecha Llegada Recepción</th>
+      <th>Fecha Entrega Contabilidad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bills.each do |bill| %>
+      <tr>
+        <td><%= bill.radicado %></td>
+        <td><%= bill.SAO %></td>
+        <td><%= bill.numero_factura %></td>
+        <td><%= bill.tipo_proyecto %></td>
+        <td><%= bill.fecha_llegada_recepcion %></td>
+        <td>
+          <%= form_with model: bill, url: update_gerencia_bill_path(bill), local: true do |form| %>
+        <div class="field">
+            <%= form.label :fecha_entrega_contabilidad, "Entrega Contabilidad" %>
+            <%= form.date_select :fecha_entrega_contabilidad %>
+        </div>
+        
+        <div class="field">
+            <%= form.label :state_gerencia_id, "Estado Gerencia" %>
+            <%= form.collection_select :state_gerencia_id, @gerencia_states, :id, :nombre %>
+        </div>
+            <%= form.submit "Actualizar y enviar a contabilidad" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+  <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
+<% end %>
+
+
+
+ 

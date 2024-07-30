@@ -1,0 +1,14 @@
+<!-- app/views/bills/search.html.erb -->
+<h1>Resultados de la Búsqueda</h1>
+
+<% if @bills.present? %>
+  <ul>
+    <% @bills.each do |bill| %>
+      <li>
+        <%= link_to "Numero de Factura: #{bill.numero_factura} - Creado en:  #{bill.ubication.nombre}, #{bill.general_state.nombre} Ubicación Actual: #{bill.aasm_state}", bill_path(bill) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No se encontraron facturas que coincidan con tu búsqueda.</p>
+<% end %>
