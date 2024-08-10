@@ -1,0 +1,42 @@
+<% if contabilidad_has_access? %>
+  <h1>Facturas en estado Pago</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Radicado</th>
+        <th>SAO</th>
+        <th>Número de Factura</th>
+        <th>Tipo de Proyecto</th>
+        <th>Fecha Llegada Recepción</th>
+        <th>Fecha Entrega Contabilidad</th>
+      
+      </tr>
+    </thead>
+    <tbody>
+      <% filtered_bills = @bills.select { |bill| bill.state_id == current_user.state_id } %>
+      <% if filtered_bills.present? %>
+        <% filtered_bills.each do |bill| %>
+          <tr>
+            <td><%= bill.radicado %></td>
+            <td><%= bill.SAO %></td>
+            <td><%= bill.numero_factura %></td>
+            <td><%= bill.tipo_proyecto %></td>
+            <td><%= bill.fecha_llegada_recepcion %></td>
+            <td>
+              <%= form_with model: bill, url: update_contabilidad_pago_bill_path(bill), local: true do |form| %>
+                <%= hidden_field_tag :bill_id, bill.id %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="7">No hay facturas en estado Pago</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
+<% end %>

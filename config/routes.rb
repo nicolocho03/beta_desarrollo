@@ -18,13 +18,22 @@ Rails.application.routes.draw do
       patch 'update_contabilidad'
       patch 'send_to_sst'
       patch 'send_to_compras'
+      get 'edit_contabilidad_causacion'
+      patch 'update_contabilidad_causacion'
+      get 'edit_contabilidad_pago'
+      patch 'update_contabilidad_pago'
     end
     collection do
       get 'compras'
       get 'sst'
       get 'gerencia'
       get 'contabilidad'
+      get 'contabilidad_causacion'
+      get 'contabilidad_pago'
       get 'search'
+      patch 'update_contabilidad_causacion'
+      patch 'update_contabilidad_pago'
+      
     end
   end
 
