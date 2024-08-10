@@ -21,7 +21,7 @@
 
   <p>
     <strong>Fecha llegada recepcion:</strong>
-    <%= bill.fecha_llegada_recepcion %>
+    <%= bill.fecha_llegada_recepcion.try(:strftime, '%d/%m/%Y') %>
   </p>
 
   <p>

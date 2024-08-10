@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Redyco</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-
-  <body>
-    <div class="top-menu">
-      <div class="top-menu__content">
-        <a href="#" class="top-menu__logo">Redyco</a>
-        <nav class="top-menu__nav">
-          <a href="#" class="top-menu__link">Inicio</a>
-        </nav>
+<head>
+  <title>Redyco</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  
+</head>
+<body>
+  </header>
+  <div class="top-menu">
+    <div class="top-menu__content">
+      <a href="#" class="top-menu__logo">Redyco</a>
+      <span class="top-menu__role"><%= current_user_role %></span>
+       <%= form_with url: search_bills_path, method: :get, local: true, class: "search-form" do |form| %>
+      <%= form.label :query, "Buscar Factura" %>
+      <%= form.text_field :query, placeholder: "Número de factura o estado..." %>
+      <%= form.submit "Buscar" %>
+    <% end %>
+      <div class="top-menu__nav">
         <%= form_tag(destroy_user_session_path, method: :delete) do %>
-       <div class="actions">
-        <%= submit_tag "Cerrar sesión" %>
-      </div>
-      <% end %>
+          <div class="actions">
+            <%= submit_tag "Cerrar sesión", class: "top-menu__link" %>
+          </div>
+          
+        <% end %>
       </div>
     </div>
+  </div>
 
-    <% flash.each do |type, message| %>
-      <div class="flash <%= type %>"><%= message %></div>
-    <% end %>
+  <% flash.each do |type, message| %>
+    <div class="flash <%= type %>"><%= message %></div>
+  <% end %>
 
-    <%= yield %>
-
-    <%= javascript_include_tag 'bills_permission_alert', 'data-turbolinks-track': 'reload' %>
-
-  </body>
+ <%= javascript_include_tag 'bills_permission_alert', 'data-turbolinks-track': 'reload' %>
+  <%= yield %>
+</body>
 </html>
+
+
+
 

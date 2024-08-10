@@ -5,7 +5,7 @@
  */
 
  
-.top-menu {
+ .top-menu {
   background-color: #00235a;
   color: white;
   padding: 10px 0;
@@ -47,6 +47,10 @@
   text-decoration: underline;
 }
 
+.top-menu__role {
+  font-size: 1.2em;
+  font-weight: bold;
+}
 
 body {
   padding-top: 50px;

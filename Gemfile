@@ -74,4 +74,6 @@ gem 'devise', '~> 4.9', '>= 4.9.4'
 
 gem 'turbolinks', '~> 5.2', '>= 5.2.1'
 
+gem 'aasm', '~> 5.5'
+
 

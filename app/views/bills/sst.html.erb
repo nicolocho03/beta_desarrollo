@@ -1,0 +1,48 @@
+<% if sst_has_access? %>
+<h1>Facturas en SST</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Radicado</th>
+      <th>SAO</th>
+      <th>Número de Factura</th>
+      <th>Tipo de Proyecto</th>
+      <th>Fecha Llegada Recepción</th>
+      <th>Fecha Entrega Compras</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bills.each do |bill| %>
+      <tr>
+        <td><%= bill.radicado %></td>
+        <td><%= bill.SAO %></td>
+        <td><%= bill.numero_factura %></td>
+        <td><%= bill.tipo_proyecto %></td>
+        <td><%= bill.fecha_llegada_recepcion %></td>
+        <td><%= bill.fecha_entrega_compras %></td>
+        <td>
+          <%= form_with model: bill, url: update_sst_bill_path(bill), local: true do |form| %>
+            <div class="field">
+              <%= form.label :compras_segunda_fecha, "Fecha entrega compras" %>
+              <%= form.date_select :compras_segunda_fecha %>
+            </div>
+            <div class="field">
+              <%= form.label :state_sst_id, "Estado de SST" %>
+              <%= form.collection_select :state_sst_id, @sst_states, :id, :nombre, prompt: "Selecciona un estado" %>
+            </div>
+            <%= form.submit "Actualizar y enviar a Compras nuevamente" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+  <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
+<% end %>
+
+
+
+
