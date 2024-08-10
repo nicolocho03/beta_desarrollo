@@ -1,7 +1,14 @@
 class BillsController < ApplicationController
-  before_action :set_bill, only: %i[ show edit update destroy edit_compras update_compras edit_gerencia update_gerencia edit_sst update_sst edit_compras_segunda_entrega update_compras_segunda_entrega edit_contabilidad update_contabilidad ]
+  before_action :set_bill, only: %i[
+    show edit update destroy 
+    edit_compras update_compras 
+    edit_sst update_sst 
+    edit_compras_segunda_entrega update_compras_segunda_entrega 
+    edit_gerencia update_gerencia 
+    edit_contabilidad update_contabilidad update_contabilidad_causacion 
+  ]
   before_action :set_specific_states, only: %i[new edit create update edit_sst update_sst sst edit_gerencia update_gerencia gerencia]
-  before_action :set_contabilidad_states, only: %i[new edit create update edit_contabilidad update_contabilidad contabilidad]
+  before_action :set_contabilidad_states, only: %i[new edit create update edit_contabilidad update_contabilidad contabilidad edit_contabilidad contabilidad_causacion update_contabilidad_causacion]
   before_action :set_sst_states, only: %i[new edit create update edit_sst update_sst sst]
   before_action :set_gerencia_states, only: %i[new edit create update edit_gerencia update_gerencia gerencia]
   before_action :authenticate_user!
@@ -37,24 +44,22 @@ class BillsController < ApplicationController
 
   def create
     @bill = Bill.new(bill_initial_params)
+    @bill.ubication_id = current_user.ubication_id
 
     if current_user.state_id == 1 
       @bill.state_id = GeneralState.find_by(nombre: 'Obra').id
+      @bill.to_compras!
     else
       @bill.state_id = GeneralState.find_by(nombre: 'Oficina').id
+      @bill.to_contabilidad_causacion!
     end
 
     @bill.ubication_id = Ubication.find_by(nombre: 'Recepcion').id
 
-    respond_to do |format|
-      if @bill.save
-        @bill.to_compras! # Transición al estado de compras usando AASM
-        format.html { redirect_to compras_bills_path, notice: "Factura creada y enviada a Compras." }
-        format.json { render :show, status: :created, location: @bill }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @bill.errors, status: :unprocessable_entity }
-      end
+    if @bill.save
+      redirect_to @bill, notice: 'Factura creada y enviada correctamente al siguiente proceso.'
+    else
+      render :new
     end
   end
 
@@ -182,14 +187,27 @@ class BillsController < ApplicationController
   end
 
   def update_gerencia
-    @bill = Bill.find(params[:id])
-    if @bill.update(bill_params_gerencia)
-      @bill.to_contabilidad!
-      redirect_to gerencia_bills_path, notice: "Factura actualizada y enviada a contabilidad."
+    @bill = Bill.find(params[:bill_id])
+    
+    if @bill.update(state_gerencia_id: params[:state_gerencia_id], fecha_entrega_contabilidad: params[:fecha_entrega_contabilidad])
+      if current_user.state_id == 1
+        if @bill.aasm_state == 'gerencia'
+          @bill.to_contabilidad_causacion_from_gerencia!
+          redirect_to gerencia_bills_path, notice: 'Factura actualizada y enviada a causacion de obra.'
+        end
+      elsif current_user.state_id == 2
+        if @bill.aasm_state == 'gerencia'
+          @bill.to_contabilidad_from_gerencia!
+          redirect_to gerencia_bills_path, notice: 'Factura actualizada y enviada a pago de oficina.'
+        end
+      else
+        redirect_to gerencia_bills_path, alert: 'No se pudo actualizar la factura.'
+      end
     else
-      render :gerencia 
+      render :gerencia
     end
   end
+
 
   def send_to_gerencia
     if @bill.to_gerencia! && @bill.update(bill_params_compras)
@@ -204,6 +222,10 @@ class BillsController < ApplicationController
 
   def contabilidad
     @bills = Bill.where(aasm_state: :contabilidad)
+  end
+
+  def contabilidad_pago
+    @bills = Bill.where(aasm_state: :contabilidad_pago)
   end
 
   def edit_contabilidad
@@ -221,13 +243,59 @@ class BillsController < ApplicationController
     end
   end
 
+  def contabilidad_causacion
+    @bills = if current_user.state_id == 1
+               Bill.where(aasm_state: 'gerencia')
+               Bill.where(aasm_state: 'contabilidad_causacion')
+             else
+               Bill.where(aasm_state: 'contabilidad_causacion')
+             end
+  end
+
+  def update_contabilidad_causacion
+    @bill = Bill.find(params[:bill_id])
+    
+    if @bill.update(state_contabilidad_id: params[:state_contabilidad_id])
+      case current_user.state_id
+      when 1
+        if @bill.aasm_state == 'contabilidad_causacion'
+          @bill.to_contabilidad_pago!
+          redirect_to contabilidad_causacion_bills_path, notice: 'Factura actualizada y enviada a estado Pago.'
+        else
+          render :contabilidad_causacion
+        end
+      when 2
+        if @bill.aasm_state == 'contabilidad_causacion'
+          @bill.to_gerencia_from_contabilidad!
+          redirect_to contabilidad_causacion_bills_path, notice: 'Factura actualizada y enviada a Gerencia'
+        else
+          render :contabilidad_causacion
+        end
+      else
+        render :contabilidad_causacion
+      end
+    else
+      render :contabilidad_causacion
+    end
+  end
+  
+  
+
+  def update_contabilidad_pago
+    if @bill.update(bill_params)
+      redirect_to contabilidad_pago_bills_path, notice: 'Factura actualizada correctamente.'
+    else
+      render :edit_contabilidad_pago
+    end
+  end
+
   #Metodos en private
 
   private
 
   #Metodos de basicos de Bills(Facturas)
   def set_bill
-    @bill = Bill.find(params[:id])
+    @bill = Bill.find(params[:bill_id] || params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_to bills_path, alert: "Factura no encontrada."
   end
@@ -260,6 +328,10 @@ class BillsController < ApplicationController
     params.require(:bill).permit(:state_contabilidad_id)
   end
 
+  def bill_params_contabilidad_causacion
+    params.require(:bill).permit(:bill_id, :state_contabilidad_id)
+  end
+
   #Los siguientes metodos se encargan de los estados que tienen las facturas en cada ubicación.
   
   def set_specific_states
@@ -277,9 +349,9 @@ class BillsController < ApplicationController
   end
 
   #Estados Contabilidad
-  def set_contabilidad_states
-    @contabilidad_states = SpecificState.where(nombre: ['Causación', 'Pago'])
-  end
+    def set_contabilidad_states
+      @contabilidad_states = SpecificState.where(nombre: ['Causación', 'Pago'])
+    end 
 
   #Los siguientes metodos validan el acceso del usuario a las diferentes vistas.
 
