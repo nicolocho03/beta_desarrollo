@@ -188,25 +188,35 @@ class BillsController < ApplicationController
 
   def update_gerencia
     @bill = Bill.find(params[:bill_id])
-    
+  
     if @bill.update(state_gerencia_id: params[:state_gerencia_id], fecha_entrega_contabilidad: params[:fecha_entrega_contabilidad])
-      if current_user.state_id == 1
+      case current_user.state_id
+      when 1
         if @bill.aasm_state == 'gerencia'
           @bill.to_contabilidad_causacion_from_gerencia!
-          redirect_to gerencia_bills_path, notice: 'Factura actualizada y enviada a causacion de obra.'
+          redirect_to gerencia_bills_path, notice: 'Factura actualizada y enviada a causación de obra.'
+        else
+          @bills = Bill.where(state_gerencia_id: 1)
+          render :gerencia
         end
-      elsif current_user.state_id == 2
+      when 2
         if @bill.aasm_state == 'gerencia'
           @bill.to_contabilidad_from_gerencia!
           redirect_to gerencia_bills_path, notice: 'Factura actualizada y enviada a pago de oficina.'
+        else
+          @bills = Bill.where(state_gerencia_id: 2)
+          render :gerencia
         end
       else
-        redirect_to gerencia_bills_path, alert: 'No se pudo actualizar la factura.'
+        @bills = Bill.none
+        render :gerencia, alert: 'No tienes permisos para ver facturas en esta sección.'
       end
     else
-      render :gerencia
+      @bills = Bill.where(state_gerencia_id: current_user.state_id)
+      render :gerencia, alert: 'No se pudo actualizar la factura.'
     end
   end
+  
 
 
   def send_to_gerencia
@@ -279,6 +289,8 @@ class BillsController < ApplicationController
     end
   end
   
+
+
   
 
   def update_contabilidad_pago

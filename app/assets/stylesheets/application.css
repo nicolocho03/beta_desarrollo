@@ -1,11 +1,16 @@
 /*
+ *= require bills_visualization
  *= require_tree .
  *= require_self
  *= require sessions
  */
 
  
- .top-menu {
+/* Font Awesome icons */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+/* Top Menu */
+.top-menu {
   background-color: #00235a;
   color: white;
   padding: 10px 0;
@@ -21,38 +26,106 @@
   justify-content: space-between;
   align-items: center;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 15px auto;
   padding: 0 20px;
-}
-
-.top-menu__logo {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-}
-
-.top-menu__nav {
-  display: flex;
-}
-
-.top-menu__link {
-  margin-left: 20px;
-  color: white;
-  text-decoration: none;
-  font-size: 1em;
-}
-
-.top-menu__link:hover {
-  text-decoration: underline;
+  position: relative;
 }
 
 .top-menu__role {
   font-size: 1.2em;
   font-weight: bold;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
 
 body {
   padding-top: 50px;
 }
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100%;
+  width: 250px;
+  background-color: #00235a;
+  color: white;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-content a {
+  padding: 20px;
+  color: white; 
+  text-decoration: none;
+}
+
+.toggle-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+  z-index: 1001;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+/* Search & Logout Icons */
+.search-btn, .logout-submit {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  margin-top: 10px;
+}
+
+.search-input {
+  width: 91%;
+  padding: 5px 13px;
+  border-radius: 15px; /* Adjust this value for more or less rounding */
+  border: 2px solid #ccc;
+  font-size: 14px;
+}
+
+.sidebar.open .search-input {
+  display: block;
+  margin-left: 1px;
+}
+
+.sidebar-open main {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+.logout-submit i, .search-btn i {
+  font-size: 24px;
+  background: none;
+}
+
+.logout-submit i:hover, .search-btn i:hover {
+  color: #ccc;
+}
+
+
 

@@ -8,7 +8,7 @@
       <th>SAO</th>
       <th>Número de Factura</th>
       <th>Tipo de Proyecto</th>
-      <th>Fecha Llegada Recepción</th>
+      <th>Fecha Llegada a SST</th>
       <th>Fecha Entrega Compras</th>
       <th>Acciones</th>
     </tr>
@@ -20,12 +20,10 @@
         <td><%= bill.SAO %></td>
         <td><%= bill.numero_factura %></td>
         <td><%= bill.tipo_proyecto %></td>
-        <td><%= bill.fecha_llegada_recepcion %></td>
-        <td><%= bill.fecha_entrega_compras %></td>
+        <td><%= bill.fecha_entrega_sst %></td>
         <td>
           <%= form_with model: bill, url: update_sst_bill_path(bill), local: true do |form| %>
-            <div class="field">
-              <%= form.label :compras_segunda_fecha, "Fecha entrega compras" %>
+            <div class="field"> 
               <%= form.date_select :compras_segunda_fecha %>
             </div>
             <div class="field">

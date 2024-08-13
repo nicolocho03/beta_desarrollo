@@ -1,66 +1,82 @@
-<div id="<%= dom_id bill %>">
-  <p>
-    <strong>Radicado:</strong>
-    <%= bill.radicado %>
-  </p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Factura</title>
+    <%= stylesheet_link_tag 'bills_visualization', media: 'all', 'data-turbo-track': 'reload' %>
 
-  <p>
-    <strong>Sao:</strong>
-    <%= bill.SAO %>
-  </p>
+</head>
+<body>
+    <div id="main-content">
+        <div id="bill-table-container">
+            <table>
+                <caption>Detalles de la Factura</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Información</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Descripción"><strong>Radicado</strong></td>
+                        <td data-label="Información"><%= bill.radicado %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Sao</strong></td>
+                        <td data-label="Información"><%= bill.SAO %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Número factura</strong></td>
+                        <td data-label="Información"><%= bill.numero_factura %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Tipo proyecto</strong></td>
+                        <td data-label="Información"><%= bill.tipo_proyecto %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Fecha llegada recepción</strong></td>
+                        <td data-label="Información"><%= bill.fecha_llegada_recepcion.try(:strftime, '%d/%m/%Y') %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Fecha entrega compras</strong></td>
+                        <td data-label="Información"><%= bill.fecha_entrega_compras.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Fecha entrega SST</strong></td>
+                        <td data-label="Información"><%= bill.fecha_entrega_sst.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Estado SST</strong></td>
+                        <td data-label="Información"><%= bill.state_sst.try(:nombre) || 'En proceso.' %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Segunda entrega Compras</strong></td>
+                        <td data-label="Información"><%= bill.compras_segunda_fecha.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Fecha entrega Gerencia</strong></td>
+                        <td data-label="Información"><%= bill.fecha_entrega_gerencia.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Estado Gerencia</strong></td>
+                        <td data-label="Información"><%= bill.state_gerencia.try(:nombre) || 'En proceso.' %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Fecha entrega Contabilidad</strong></td>
+                        <td data-label="Información"><%= bill.fecha_entrega_contabilidad.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Estado Contabilidad</strong></td>
+                        <td data-label="Información"><%= bill.state_contabilidad.try(:nombre) || 'En proceso.' %></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
 
-  <p>
-    <strong>Numero factura:</strong>
-    <%= bill.numero_factura %>
-  </p>
 
-  <p>
-    <strong>Tipo proyecto:</strong>
-    <%= bill.tipo_proyecto %>
-  </p>
 
-  <p>
-    <strong>Fecha llegada recepcion:</strong>
-    <%= bill.fecha_llegada_recepcion.try(:strftime, '%d/%m/%Y') %>
-  </p>
-
-  <p>
-    <strong>Fecha entrega compras:</strong>
-    <%= bill.fecha_entrega_compras.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
-  </p>
-
-  <p>
-    <strong>Fecha entrega sst:</strong>
-    <%= bill.fecha_entrega_sst.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
-  </p>
-
-  <p>
-    <strong>State sst:</strong>
-    <%= bill.state_sst.try(:nombre) || 'En proceso.' %>
-  </p>
-
-  <p>
-    <strong>Segunda entrega Compras:</strong>
-    <%= bill.compras_segunda_fecha.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
-  </p>
-
-  <p>
-    <strong>Fecha entrega gerencia:</strong>
-    <%= bill.fecha_entrega_gerencia.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
-  </p>
-
-  <p>
-    <strong>Estado gerencia:</strong>
-    <%= bill.state_gerencia.try(:nombre) || 'En proceso.' %>
-  </p>
-
-  <p>
-    <strong>Fecha entrega contabilidad:</strong>
-    <%= bill.fecha_entrega_contabilidad.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %>
-  </p>
-
-  <p>
-    <strong>State contabilidad:</strong>
-    <%= bill.state_contabilidad.try(:nombre) || 'En proceso.' %>
-  </p>
-</div>

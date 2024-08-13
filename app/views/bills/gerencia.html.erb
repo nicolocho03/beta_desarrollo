@@ -13,28 +13,34 @@
       </tr>
     </thead>
     <tbody>
-      <% @bills.each do |bill| %>
+      <% filtered_bills = @bills.select { |bill| bill.state_id == current_user.state_id } %>
+      <% if filtered_bills.present? %>
+        <% filtered_bills.each do |bill| %>
+          <tr>
+            <td><%= bill.radicado %></td>
+            <td><%= bill.SAO %></td>
+            <td><%= bill.numero_factura %></td>
+            <td><%= bill.tipo_proyecto %></td>
+            <td><%= bill.fecha_llegada_recepcion %></td>
+            <td>
+              <%= form_with url: update_gerencia_bill_path(bill), method: :patch do |f| %>
+                <%= hidden_field_tag :bill_id, bill.id %>
+                <div class="field">
+                  <%= f.label :fecha_entrega_contabilidad, "Entrega Contabilidad" %>
+                  <%= f.date_select :fecha_entrega_contabilidad %>
+                </div>
+                <div class="field">
+                  <%= f.label :state_gerencia_id, "Estado Gerencia" %>
+                  <%= f.collection_select :state_gerencia_id, @gerencia_states, :id, :nombre %>
+                </div>
+                <%= f.submit "Actualizar y enviar a contabilidad" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
         <tr>
-          <td><%= bill.radicado %></td>
-          <td><%= bill.SAO %></td>
-          <td><%= bill.numero_factura %></td>
-          <td><%= bill.tipo_proyecto %></td>
-          <td><%= bill.fecha_llegada_recepcion %></td>
-          <td>
-            <%= form_with url: update_gerencia_bill_path(bill), method: :patch do |f| %>
-              <%= hidden_field_tag :bill_id, bill.id %>
-              <div class="field">
-                <%= f.label :fecha_entrega_contabilidad, "Entrega Contabilidad" %>
-                <%= f.date_select :fecha_entrega_contabilidad %>
-              </div>
-              
-              <div class="field">
-                <%= f.label :state_gerencia_id, "Estado Gerencia" %>
-                <%= f.collection_select :state_gerencia_id, @gerencia_states, :id, :nombre %>
-              </div>
-              <%= f.submit "Actualizar y enviar a contabilidad" %>
-            <% end %>
-          </td>
+          <td colspan="6">No hay facturas disponibles para tu estado actual.</td>
         </tr>
       <% end %>
     </tbody>

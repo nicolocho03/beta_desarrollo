@@ -8,7 +8,7 @@
       <th>SAO</th>
       <th>Numero Factura</th>
       <th>Tipo Proyecto</th>
-      <th>Fecha de Llegada a Recepcion</th>
+      <th>Fecha de Llegada a Compras</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -19,16 +19,16 @@
         <td><%= bill.SAO %></td>
         <td><%= bill.numero_factura %></td>
         <td><%= bill.tipo_proyecto %></td>
-        <td><%= bill.fecha_llegada_recepcion %></td>
+        <td><%= bill.fecha_entrega_compras %></td>
         <td>
           <% if bill.fecha_entrega_sst.blank? %>
             <!-- Factura que viene de Recepción -->
             <%= link_to 'Editar', edit_compras_bill_path(bill) %>
-            <%= link_to 'Enviar a SST', update_compras_bill_path(bill), method: :patch %>
+           
           <% else %>
             <!-- Factura que viene de SST (segunda vuelta) -->
             <%= link_to 'Editar Segunda Vuelta', edit_compras_segunda_entrega_bill_path(bill) %>
-            <%= link_to 'Enviar a Gerencia', update_compras_segunda_entrega_bill_path(bill), method: :patch %>
+          
           <% end %>
         </td>
       </tr>

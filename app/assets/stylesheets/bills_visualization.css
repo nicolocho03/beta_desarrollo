@@ -1,0 +1,76 @@
+/* Importar fuente de Google */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap');
+
+/* Estilo general para el cuerpo y la fuente */
+*, body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    height: 100%;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    overflow: auto; /* Evitar scroll en el cuerpo para controlar el scroll solo en el contenedor */
+}
+
+/* Estilo para el contenedor principal */
+#main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Estilo para el contenedor de la tabla */
+#bill-table-container {
+    max-height: 80vh; /* Ajusta esto según sea necesario */
+    overflow-y: auto; /* Permitir desplazamiento vertical */
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+caption {
+    font-size: 1.5em;
+    margin: 10px 0;
+    color: #333;
+}
+
+thead {
+    background-color: #00235a;
+    color: #fff;
+}
+
+th {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+}
+
+
+
+
