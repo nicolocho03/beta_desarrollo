@@ -64,6 +64,23 @@ class ApplicationController < ActionController::Base
 
     "#{role}/#{location}"
   end
+
+  def after_sign_in_path_for(resource)
+    case resource.ubication_id
+    when 1
+      bills_path 
+    when 2
+      compras_bills_path 
+    when 3
+      sst_bills_path 
+    when 4
+      gerencia_bills_path
+    when 5
+      contabilidad_causacion_bills_path 
+    else
+      root_path 
+    end
+  end
 end
 
 

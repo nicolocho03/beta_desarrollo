@@ -5,39 +5,111 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'bills', media: 'all' %>
+  <%= stylesheet_link_tag 'bills_visualization', media: 'all', 'data-turbo-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  
+  <script src="https://kit.fontawesome.com/cc8d4d1127.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
 </head>
 <body>
-  </header>
-  <div class="top-menu">
-    <div class="top-menu__content">
-      <a href="#" class="top-menu__logo">Redyco</a>
-      <span class="top-menu__role"><%= current_user_role %></span>
-       <%= form_with url: search_bills_path, method: :get, local: true, class: "search-form" do |form| %>
-      <%= form.label :query, "Buscar Factura" %>
-      <%= form.text_field :query, placeholder: "Número de factura o estado..." %>
-      <%= form.submit "Buscar" %>
-    <% end %>
-      <div class="top-menu__nav">
-        <%= form_tag(destroy_user_session_path, method: :delete) do %>
-          <div class="actions">
-            <%= submit_tag "Cerrar sesión", class: "top-menu__link" %>
-          </div>
-          
-        <% end %>
+  <header>
+    <div class="top-menu">
+      <div class="top-menu__content">
+        <span class="top-menu__role"><%= current_user_role %></span>
+        <span class="toggle-btn" id="toggle-btn"><i class="fa-solid fa-bars"></i></span>
       </div>
+    </div>
+  </header>
+
+  <div class="sidebar" id="sidebar">
+    <span class="close-btn" id="close-btn">&times;</span>
+    <div class="sidebar-content">
+      <nav>
+        <ul>
+          <li>
+            <button type="button" class="search-btn" id="search-btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <%= form_with url: search_bills_path, method: :get, local: true, class: "search-form", id: "search-form" do |form| %>
+              <%= form.text_field :query, placeholder: "Número de factura", class: "search-input", id: "search-input" %>
+            <% end %>
+          </li>
+        <% if user_signed_in? && current_user.ubication_id == 1 %>
+          <li>
+            <a href="<%= new_bill_path %>" class="sidebar-link">
+              <i class="fa-solid fa-receipt"></i> Crear Factura
+            </a>
+          </li>
+        <% end %>
+         <% if user_signed_in? && current_user.ubication_id == 2 %>
+          <li>
+            <a href="<%= compras_bills_path %>" class="sidebar-link">
+              <i class="fa-solid fa-receipt"></i> Facturas de Compras
+            </a>
+          </li>
+        <% end %>
+        <% if user_signed_in? && current_user.ubication_id == 3 %>
+          <li>
+            <a href="<%= sst_bills_path %>" class="sidebar-link">
+              <i class="fa-solid fa-receipt"></i> Facturas de SST
+            </a>
+          </li>
+        <% end %>
+        <% if user_signed_in? && current_user.ubication_id == 4 %>
+          <li>
+            <a href="<%= gerencia_bills_path %>" class="sidebar-link">
+              <i class="fa-solid fa-receipt"></i> Facturas de Gerencia
+            </a>
+          </li>
+        <% end %>
+         <% if user_signed_in? && current_user.ubication_id == 5 %>
+            <li>
+              <a href="<%= contabilidad_causacion_bills_path %>" class="sidebar-link">
+                Facturas en Causación
+              </a>
+              <button onclick="window.location='<%= contabilidad_causacion_bills_path %>';" class="sidebar-button">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </li>
+            <li>
+              <a href="<%= contabilidad_pago_bills_path %>" class="sidebar-link">
+                Facturas en estado Pago
+              </a>
+              <button onclick="window.location='<%= contabilidad_pago_bills_path %>';" class="sidebar-button">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </li>
+          <% end %>
+          <li>
+            <a href="<%= bills_path %>" class="sidebar-link">
+             <i class="fa-regular fa-eye"></i> Ver Facturas 
+            </a>
+          </li>
+          <li>
+            <%= form_tag(destroy_user_session_path, method: :delete) do %>
+              <button type="submit" class="logout-submit">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                Cerrar Sesión 
+              </button>
+            <% end %>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 
-  <% flash.each do |type, message| %>
-    <div class="flash <%= type %>"><%= message %></div>
-  <% end %>
-
- <%= javascript_include_tag 'bills_permission_alert', 'data-turbolinks-track': 'reload' %>
-  <%= yield %>
+  <main>
+    <% flash.each do |type, message| %>
+      <div class="flash <%= type %>"><%= message %></div>
+    <% end %>
+    <%= yield %>
+  </main>
 </body>
 </html>
+
+
+
+
 
 
 
