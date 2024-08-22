@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   resources :specific_states
   resources :general_states
   resources :ubications
-  
+  get 'autocomplete_providers', to: 'bills#autocomplete_providers'
   get "up" => "rails/health#show", as: :rails_health_check
 end
 

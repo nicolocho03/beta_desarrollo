@@ -22,6 +22,19 @@ class BillsController < ApplicationController
   #Metodos para la logica basica de facturas, son necesarios para la visualizacion de cada una
   #creacion, editar y eliminar.
 
+
+  
+  # app/controllers/bills_controller.rb
+  def autocomplete_providers
+    if params[:nit].present?
+      providers = Provider.where('nit LIKE ?', "%#{params[:nit]}%")
+      render json: providers.as_json(only: [:nit, :name])
+    else
+      render json: { error: 'No NIT provided' }
+    end
+  end
+
+
   def search
     @query = params[:query]
     if @query.present?

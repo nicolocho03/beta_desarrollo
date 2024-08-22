@@ -18,29 +18,36 @@
                   </ul>
                 </div>
               <% end %>
+             
+              <div class="col-md-12">
+                <%= form.label :nit, "NIT" %>
+                <%= form.text_field :nit, id: 'nit-input', class: 'form-control', placeholder: 'Ingrese NIT', autocomplete: 'off' %>
+              </div>
+
+              
+              <div class="col-md-12">
+                <%= form.label :provider, "Proveedor" %>
+                <%= form.text_field :provider, id: 'provider-input', class: 'form-control', placeholder: 'Proveedor', readonly: true %>
+              </div>
 
               <div class="col-md-12">
                 <%= form.label :radicado %>
                 <%= form.text_field :radicado, class: 'form-control', placeholder: 'Radicado', required: true %>
-             
               </div>
 
               <div class="col-md-12">
                 <%= form.label :SAO %>
                 <%= form.text_field :SAO, class: 'form-control', placeholder: 'SAO', required: true %>
-                
               </div>
 
               <div class="col-md-12">
                 <%= form.label :numero_factura %>
                 <%= form.text_field :numero_factura, class: 'form-control', placeholder: 'Número de Factura', required: true %>
-             
               </div>
 
               <div class="col-md-12">
                 <%= form.label :tipo_proyecto %>
                 <%= form.text_field :tipo_proyecto, class: 'form-control', placeholder: 'Tipo de Proyecto', required: true %>
-                
               </div>
 
               <div class="col-md-12">
@@ -51,7 +58,6 @@
               <div class="col-md-12">
                 <%= form.label :fecha_entrega_compras %>
                 <%= form.date_select :fecha_entrega_compras, class: 'form-control', required: true %>
-              
               </div>
 
               <div class="form-button mt-3">

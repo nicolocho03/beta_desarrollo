@@ -68,10 +68,17 @@ body {
 }
 
 .sidebar-content a {
-  padding: 20px;
+  padding: 15px;
   color: white; 
   text-decoration: none;
+  display: block; /* Asegura que cada enlace ocupe toda la línea */
+  margin-bottom: 15px; /* Añade margen inferior para separarlos */
 }
+
+.sidebar-content a:last-child {
+  margin-bottom: 0; /* Elimina el margen inferior del último elemento */
+}
+
 
 .toggle-btn {
   position: fixed;
@@ -103,7 +110,7 @@ body {
 .search-input {
   width: 91%;
   padding: 5px 13px;
-  border-radius: 15px; /* Adjust this value for more or less rounding */
+  border-radius: 15px; 
   border: 2px solid #ccc;
   font-size: 14px;
 }

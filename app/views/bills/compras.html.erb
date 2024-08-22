@@ -22,11 +22,11 @@
         <td><%= bill.fecha_entrega_compras %></td>
         <td>
           <% if bill.fecha_entrega_sst.blank? %>
-            <!-- Factura que viene de Recepción -->
+      
             <%= link_to 'Editar', edit_compras_bill_path(bill) %>
            
           <% else %>
-            <!-- Factura que viene de SST (segunda vuelta) -->
+        
             <%= link_to 'Editar Segunda Vuelta', edit_compras_segunda_entrega_bill_path(bill) %>
           
           <% end %>

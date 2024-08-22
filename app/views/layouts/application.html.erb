@@ -2,12 +2,13 @@
 <html>
 <head>
   <title>Redyco</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= stylesheet_link_tag 'bills', media: 'all' %>
-  <%= stylesheet_link_tag 'bills_visualization', media: 'all', 'data-turbo-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'bills', media: 'all' %>
+
+<%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
+<%= stylesheet_link_tag 'bills_visualization', media: 'all', 'data-turbo-track': 'reload' %>
   <script src="https://kit.fontawesome.com/cc8d4d1127.js" crossorigin="anonymous"></script>
   <meta charset="UTF-8">
 </head>
@@ -64,20 +65,12 @@
         <% end %>
          <% if user_signed_in? && current_user.ubication_id == 5 %>
             <li>
-              <a href="<%= contabilidad_causacion_bills_path %>" class="sidebar-link">
-                Facturas en Causación
-              </a>
-              <button onclick="window.location='<%= contabilidad_causacion_bills_path %>';" class="sidebar-button">
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </li>
-            <li>
-              <a href="<%= contabilidad_pago_bills_path %>" class="sidebar-link">
-                Facturas en estado Pago
-              </a>
-              <button onclick="window.location='<%= contabilidad_pago_bills_path %>';" class="sidebar-button">
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
+               <a href="<%= contabilidad_causacion_bills_path %>" class="sidebar-link">
+              <i class="fa-solid fa-receipt"></i> Contabilidad Causación
+              
+               <a href="<%= contabilidad_pago_bills_path %>" class="sidebar-link">
+              <i class="fa-solid fa-receipt"></i> Contabilidad Pago
+            </a>
             </li>
           <% end %>
           <li>
