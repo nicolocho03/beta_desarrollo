@@ -76,4 +76,5 @@ gem 'turbolinks', '~> 5.2', '>= 5.2.1'
 
 gem 'aasm', '~> 5.5'
 
+gem 'roo'
 

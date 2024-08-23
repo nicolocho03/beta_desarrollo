@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_24_180004) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_23_024206) do
   create_table "bills", charset: "utf8mb3", force: :cascade do |t|
     t.string "radicado"
     t.string "SAO"
@@ -30,6 +30,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_24_180004) do
     t.bigint "ubication_id"
     t.bigint "state_id"
     t.string "aasm_state"
+    t.bigint "provider_id"
+    t.index ["provider_id"], name: "index_bills_on_provider_id"
     t.index ["state_contabilidad_id"], name: "index_bills_on_state_contabilidad_id"
     t.index ["state_gerencia_id"], name: "index_bills_on_state_gerencia_id"
     t.index ["state_id"], name: "index_bills_on_state_id"
@@ -39,6 +41,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_24_180004) do
 
   create_table "general_states", charset: "utf8mb3", force: :cascade do |t|
     t.string "nombre"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "providers", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name"
+    t.string "nit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -73,6 +82,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_24_180004) do
   end
 
   add_foreign_key "bills", "general_states", column: "state_id"
+  add_foreign_key "bills", "providers"
   add_foreign_key "bills", "specific_states", column: "state_contabilidad_id"
   add_foreign_key "bills", "specific_states", column: "state_gerencia_id"
   add_foreign_key "bills", "specific_states", column: "state_sst_id"
