@@ -71,6 +71,11 @@
                         <td data-label="Descripción"><strong>Estado Contabilidad</strong></td>
                         <td data-label="Información"><%= bill.state_contabilidad.try(:nombre) || 'En proceso.' %></td>
                     </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Ubicación de la factura</strong></td>
+                        <td data-label="Información"><%= bill.aasm_state %></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
