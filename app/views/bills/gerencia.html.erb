@@ -1,5 +1,5 @@
 <% if gerencia_has_access? %>
-  <h1>Facturas en Gerencia</h1>
+<div style="height: 45px;"></div>
 
   <table>
     <thead>
@@ -23,18 +23,17 @@
             <td><%= bill.tipo_proyecto %></td>
             <td><%= bill.fecha_llegada_recepcion %></td>
             <td>
-              <%= form_with url: update_gerencia_bill_path(bill), method: :patch do |f| %>
-                <%= hidden_field_tag :bill_id, bill.id %>
-                <div class="field">
-                  <%= f.label :fecha_entrega_contabilidad, "Entrega Contabilidad" %>
-                  <%= f.date_select :fecha_entrega_contabilidad %>
-                </div>
-                <div class="field">
-                  <%= f.label :state_gerencia_id, "Estado Gerencia" %>
-                  <%= f.collection_select :state_gerencia_id, @gerencia_states, :id, :nombre %>
-                </div>
-                <%= f.submit "Actualizar y enviar a contabilidad" %>
-              <% end %>
+           <%= form_with(model: bill, url: update_gerencia_bill_path(bill), method: :patch) do |f| %>
+              <div class="field">
+                <%= f.label :fecha_entrega_contabilidad, "Entrega Contabilidad" %>
+                <%= f.date_select :fecha_entrega_contabilidad %>
+              </div>
+              <div class="field">
+                <%= f.label :state_gerencia_id, "Estado Gerencia" %>
+                <%= f.collection_select :state_gerencia_id, @gerencia_states, :id, :nombre %>
+              </div>
+              <%= f.submit "Actualizar y enviar a contabilidad" %>
+            <% end %>
             </td>
           </tr>
         <% end %>
@@ -48,8 +47,3 @@
 <% else %>
   <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
 <% end %>
-
-
-
-
- 

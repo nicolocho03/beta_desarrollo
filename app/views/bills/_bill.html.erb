@@ -19,7 +19,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <% if bill.state_id == 1 %>
+                     <tr>
                         <td data-label="Descripción"><strong>Radicado</strong></td>
                         <td data-label="Información"><%= bill.radicado %></td>
                     </tr>
@@ -71,6 +72,63 @@
                         <td data-label="Descripción"><strong>Estado Contabilidad</strong></td>
                         <td data-label="Información"><%= bill.state_contabilidad.try(:nombre) || 'En proceso.' %></td>
                     </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Ubicación de la factura</strong></td>
+                        <td data-label="Información"><%= bill.aasm_state %></td>
+                    </tr>
+                     <tr>
+                        <td data-label="Descripción"><strong>Locación de la factura</strong></td>
+                        <td data-label="Información"><%= bill.general_state.try(:nombre) %></td>
+                    </tr>
+                 <% elsif bill.state_id == 2 %>
+                    <tr>
+                        <td data-label="Descripción"><strong>Radicado</strong></td>
+                        <td data-label="Información"><%= bill.radicado %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Sao</strong></td>
+                        <td data-label="Información"><%= bill.SAO %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Número factura</strong></td>
+                        <td data-label="Información"><%= bill.numero_factura %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Tipo proyecto</strong></td>
+                        <td data-label="Información"><%= bill.tipo_proyecto %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Fecha llegada recepción</strong></td>
+                        <td data-label="Información"><%= bill.fecha_llegada_recepcion.try(:strftime, '%d/%m/%Y') %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Fecha entrega Contabilidad</strong></td>
+                        <td data-label="Información"><%= bill.fecha_entrega_contabilidad.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Estado Contabilidad</strong></td>
+                        <td data-label="Información"><%= bill.state_contabilidad.try(:nombre) || 'En proceso.' %></td>
+                    </tr>
+                     <tr>
+                        <td data-label="Descripción"><strong>Fecha entrega Gerencia</strong></td>
+                        <td data-label="Información"><%= bill.fecha_entrega_gerencia.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Estado Gerencia</strong></td>
+                        <td data-label="Información"><%= bill.state_gerencia.try(:nombre) || 'En proceso.' %></td>
+                    </tr>
+                     <tr>
+                        <td data-label="Descripción"><strong>Ubicación de la factura</strong></td>
+                        <td data-label="Información"><%= bill.aasm_state %></td>
+                    </tr>
+                     <tr>
+                        <td data-label="Descripción"><strong>Locación de la factura</strong></td>
+                        <td data-label="Información"><%= bill.general_state.try(:nombre) %></td>
+                    </tr>
+                    <% else %>
+                    <%puts ("No hay facturas disponibles")%>
+                    <%end%>
+                   
                 </tbody>
             </table>
         </div>

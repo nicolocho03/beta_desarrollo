@@ -5,10 +5,10 @@ class BillsController < ApplicationController
     edit_sst update_sst 
     edit_compras_segunda_entrega update_compras_segunda_entrega 
     edit_gerencia update_gerencia 
-    edit_contabilidad update_contabilidad update_contabilidad_causacion 
+    edit_contabilidad update_contabilidad_causacion update_contabilidad_pago
   ]
   before_action :set_specific_states, only: %i[new edit create update edit_sst update_sst sst edit_gerencia update_gerencia gerencia]
-  before_action :set_contabilidad_states, only: %i[new edit create update edit_contabilidad update_contabilidad contabilidad edit_contabilidad contabilidad_causacion update_contabilidad_causacion]
+  before_action :set_contabilidad_states, only: %i[new edit create update contabilidad edit_contabilidad contabilidad_causacion update_contabilidad_causacion contabilidad_pago update_contabilidad_pago ]
   before_action :set_sst_states, only: %i[new edit create update edit_sst update_sst sst]
   before_action :set_gerencia_states, only: %i[new edit create update edit_gerencia update_gerencia gerencia]
   before_action :authenticate_user!
@@ -187,9 +187,9 @@ class BillsController < ApplicationController
   end
 
   def update_gerencia
-    @bill = Bill.find(params[:bill_id])
+    @bill = Bill.find(params[:id])
   
-    if @bill.update(state_gerencia_id: params[:state_gerencia_id], fecha_entrega_contabilidad: params[:fecha_entrega_contabilidad])
+    if @bill.update(bill_params_gerencia)
       case current_user.state_id
       when 1
         if @bill.aasm_state == 'gerencia'
@@ -241,17 +241,6 @@ class BillsController < ApplicationController
   def edit_contabilidad
   end
 
-  def update_contabilidad
-    respond_to do |format|
-      if @bill.update(bill_params_contabilidad)
-        format.html { redirect_to @bill, notice: "Factura finaliza proceso en Contabilidad." }
-        format.json { render :show, status: :ok, location: @bill }
-      else
-        format.html { render :edit_contabilidad, status: :unprocessable_entity }
-        format.json { render json: @bill.errors, status: :unprocessable_entity }
-      end
-    end
-  end
 
   def contabilidad_causacion
     @bills = if current_user.state_id == 1
@@ -265,7 +254,7 @@ class BillsController < ApplicationController
   def update_contabilidad_causacion
     @bill = Bill.find(params[:bill_id])
     
-    if @bill.update(state_contabilidad_id: params[:state_contabilidad_id])
+    if @bill.update(bill_params_contabilidad)
       case current_user.state_id
       when 1
         if @bill.aasm_state == 'contabilidad_causacion'
@@ -288,13 +277,9 @@ class BillsController < ApplicationController
       render :contabilidad_causacion
     end
   end
-  
-
-
-  
 
   def update_contabilidad_pago
-    if @bill.update(bill_params)
+    if @bill.update(bill_params_contabilidad)
       redirect_to contabilidad_pago_bills_path, notice: 'Factura actualizada correctamente.'
     else
       render :edit_contabilidad_pago
@@ -313,7 +298,7 @@ class BillsController < ApplicationController
   end
 
   def bill_initial_params
-    params.require(:bill).permit(:radicado, :SAO, :numero_factura, :fecha_llegada_recepcion, :tipo_proyecto, :fecha_entrega_compras)
+    params.require(:bill).permit(:radicado, :SAO, :numero_factura, :fecha_llegada_recepcion, :tipo_proyecto, :fecha_entrega_compras, :fecha_entrega_contabilidad)
   end
 
   #Metodos de compras y compras segunda entrega
@@ -337,11 +322,7 @@ class BillsController < ApplicationController
 
   #Metodos Contabilidad
   def bill_params_contabilidad
-    params.require(:bill).permit(:state_contabilidad_id)
-  end
-
-  def bill_params_contabilidad_causacion
-    params.require(:bill).permit(:bill_id, :state_contabilidad_id)
+    params.require(:bill).permit(:bill_id, :state_contabilidad_id, :fecha_entrega_contabilidad, :fecha_entrega_gerencia)
   end
 
   #Los siguientes metodos se encargan de los estados que tienen las facturas en cada ubicación.
