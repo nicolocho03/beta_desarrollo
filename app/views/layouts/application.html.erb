@@ -64,21 +64,16 @@
         <% end %>
          <% if user_signed_in? && current_user.ubication_id == 5 %>
             <li>
-              <a href="<%= contabilidad_causacion_bills_path %>" class="sidebar-link">
-                Facturas en Causación
-              </a>
-              <button onclick="window.location='<%= contabilidad_causacion_bills_path %>';" class="sidebar-button">
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </li>
+            <a href="<%= contabilidad_causacion_bills_path %>" class="sidebar-link">
+              <i class="fa-solid fa-receipt"></i> Facturas en Causación
+            </a>
+          </li>
+
             <li>
-              <a href="<%= contabilidad_pago_bills_path %>" class="sidebar-link">
-                Facturas en estado Pago
-              </a>
-              <button onclick="window.location='<%= contabilidad_pago_bills_path %>';" class="sidebar-button">
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </li>
+            <a href="<%= contabilidad_pago_bills_path %>" class="sidebar-link">
+              <i class="fa-solid fa-receipt"></i> Facturas en estado Pago
+            </a>
+          </li>
           <% end %>
           <li>
             <a href="<%= bills_path %>" class="sidebar-link">
