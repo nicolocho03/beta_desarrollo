@@ -29,6 +29,10 @@
                   <%= form.label :state_contabilidad_id, "Estado Contabilidad" %>
                   <%= form.collection_select :state_contabilidad_id, @contabilidad_states, :id, :nombre %>
                 </div>
+                <div class="field">
+                <%= form.label :fecha_entrega_gerencia, "Entrega Gerencia" %>
+                <%= form.date_select :fecha_entrega_gerencia %>
+              </div>
                 <div class="actions">
                   <%= form.submit "Actualizar" %>
                 </div>
