@@ -6,6 +6,7 @@ class Bill < ApplicationRecord
   belongs_to :state_sst, class_name: 'SpecificState', optional: true
   belongs_to :ubication
   belongs_to :general_state, class_name: 'GeneralState', foreign_key: 'state_id'
+  belongs_to :provider, class_name: 'Provider', foreign_key: 'provider_id'
  
   validates :ubication_id, presence: true
   validates :state_id, presence: true
