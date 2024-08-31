@@ -1,6 +1,6 @@
-// sidebar.js
+import $ from 'jquery';
 
-document.addEventListener('turbolinks:load', function() {
+document.addEventListener('turbolinks:load', () => {
   const toggleBtn = document.getElementById('toggle-btn');
   const sidebar = document.getElementById('sidebar');
   const closeBtn = document.getElementById('close-btn');
@@ -8,22 +8,23 @@ document.addEventListener('turbolinks:load', function() {
   const searchInput = document.getElementById('search-input');
 
   if (toggleBtn && sidebar && closeBtn && searchBtn && searchInput) {
-    toggleBtn.addEventListener('click', function() {
+    toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('open');
       document.body.classList.toggle('sidebar-open');
     });
 
-    closeBtn.addEventListener('click', function() {
+    closeBtn.addEventListener('click', () => {
       sidebar.classList.remove('open');
       document.body.classList.remove('sidebar-open');
     });
 
-    searchBtn.addEventListener('click', function() {
+    searchBtn.addEventListener('click', () => {
       searchInput.classList.toggle('show');
       searchInput.focus();
     });
   }
 });
+
 
 
 
