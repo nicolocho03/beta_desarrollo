@@ -29,6 +29,9 @@ module.exports = {
       publicPath: '/packs/',
     }),
   ],
+  node: {
+    // Elimina cualquier configuración personalizada para `node`
+    __dirname: false,
+    __filename: false
+  }
 };
-
-

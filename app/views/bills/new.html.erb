@@ -6,7 +6,7 @@
           <div class="form-items">
             <h3>Crear Factura</h3>
             <p>Complete los campos a continuación.</p>
-          <%= javascript_pack_tag 'application' %>
+          <%= javascript_pack_tag 'main', 'data-turbolinks-track': 'reload' %>
 
             <%= form_with(model: @bill, local: true, class: 'requires-validation', novalidate: true) do |form| %>
               <% if @bill.errors.any? %>
