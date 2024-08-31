@@ -1,4 +1,5 @@
 const path = require('path');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 module.exports = {
   mode: 'development', // Cambia a 'production' para producción
@@ -6,6 +7,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public/packs'), // Directorio de salida
+    publicPath: '/packs/', // Directorio público para archivos estáticos
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -21,4 +23,12 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new WebpackManifestPlugin({
+      fileName: 'manifest.json',
+      publicPath: '/packs/',
+    }),
+  ],
 };
+
+
