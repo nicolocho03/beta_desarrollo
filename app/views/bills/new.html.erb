@@ -6,6 +6,7 @@
           <div class="form-items">
             <h3>Crear Factura</h3>
             <p>Complete los campos a continuación.</p>
+          <%= javascript_pack_tag 'application' %>
 
             <%= form_with(model: @bill, local: true, class: 'requires-validation', novalidate: true) do |form| %>
               <% if @bill.errors.any? %>
@@ -20,11 +21,8 @@
               <% end %>
 
               <%= form.label :nit, "NIT del Proveedor" %>
-  <%= text_field_tag :nit, params[:nit], id: "provider_nit", data: { autocomplete_source: nits_autocomplete_path } %>
-  
-  <%= form.hidden_field :provider_id, id: "bill_providers_id" %>
-
-
+              <%= text_field_tag :nit, params[:nit], id: "nit_field", data: { autocomplete_source: nits_autocomplete_path } %>
+              <%= form.hidden_field :provider_id, id: "bill_providers_id" %>
 
               <div class="col-md-12">
                 <%= form.label :radicado %>
