@@ -78,3 +78,5 @@ gem 'aasm', '~> 5.5'
 
 gem 'roo'
 
+
+gem "webpacker", "~> 5.4"

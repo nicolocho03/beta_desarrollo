@@ -42,6 +42,8 @@ Rails.application.routes.draw do
   resources :ubications
   
   get "up" => "rails/health#show", as: :rails_health_check
+  get 'nits_autocomplete', to: 'providers#autocomplete', as: 'nits_autocomplete'
+
 end
 
 

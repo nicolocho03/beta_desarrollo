@@ -4,10 +4,8 @@
   <title>Redyco</title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= stylesheet_link_tag 'bills', media: 'all' %>
-  <%= stylesheet_link_tag 'bills_visualization', media: 'all', 'data-turbo-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  
+
   <script src="https://kit.fontawesome.com/cc8d4d1127.js" crossorigin="anonymous"></script>
   <meta charset="UTF-8">
 </head>
@@ -99,13 +97,10 @@
     <% end %>
     <%= yield %>
   </main>
+  <%= stylesheet_pack_tag 'bundle', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'main', 'data-turbolinks-track': 'reload' %>
+
+
+
 </body>
 </html>
-
-
-
-
-
-
-
-

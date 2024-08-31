@@ -6,6 +6,7 @@
           <div class="form-items">
             <h3>Crear Factura</h3>
             <p>Complete los campos a continuación.</p>
+          <%= javascript_pack_tag 'main', 'data-turbolinks-track': 'reload' %>
 
             <%= form_with(model: @bill, local: true, class: 'requires-validation', novalidate: true) do |form| %>
               <% if @bill.errors.any? %>
@@ -18,6 +19,10 @@
                   </ul>
                 </div>
               <% end %>
+
+              <%= form.label :nit, "NIT del Proveedor" %>
+              <%= text_field_tag :nit, params[:nit], id: "nit_field", data: { autocomplete_source: nits_autocomplete_path } %>
+              <%= form.hidden_field :provider_id, id: "bill_providers_id" %>
 
               <div class="col-md-12">
                 <%= form.label :radicado %>
@@ -63,7 +68,20 @@
               <div class="form-button mt-3">
                 <%= form.submit "Crear Factura y enviar", class: 'btn btn-primary' %>
               </div>
+              <%= hidden_field_tag :bill_providers_id, nil, id: 'bill_providers_id' %>
             <% end %>
+            <script>
+              document.addEventListener("DOMContentLoaded", function() {
+                $('#nit_field').autocomplete({
+                  source: $('#nit_field').data('autocomplete-url'),
+                  minLength: 2,
+                  select: function(event, ui) {
+                    // Al seleccionar un NIT, almacenar el id en el campo oculto
+                    $('#bill_providers_id').val(ui.item.value);
+                  }
+                });
+              });
+            </script>
           </div>
         </div>
       </div>
