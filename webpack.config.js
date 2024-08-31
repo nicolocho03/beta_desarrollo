@@ -10,4 +10,15 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/, // Aplica esta regla a archivos .css
+        use: [
+          'style-loader', // Inserta CSS en el DOM
+          'css-loader'    // Interpreta los imports de CSS
+        ],
+      },
+    ],
+  },
 };
