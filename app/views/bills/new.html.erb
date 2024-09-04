@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <% if recepcion_has_access? %>
   <div class="form-body">
     <div class="row">
@@ -7,7 +6,7 @@
           <div class="form-items">
             <h3>Crear Factura</h3>
             <p>Complete los campos a continuación.</p>
-          <%= javascript_pack_tag 'main', 'data-turbolinks-track': 'reload' %>
+            <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
             <%= form_with(model: @bill, local: true, class: 'requires-validation', novalidate: true) do |form| %>
               <% if @bill.errors.any? %>
@@ -22,7 +21,7 @@
               <% end %>
 
               <%= form.label :nit, "NIT del Proveedor" %>
-              <%= text_field_tag :nit, params[:nit], id: "nit_field", data: { autocomplete_source: nits_autocomplete_path } %>
+              <%= text_field_tag :nit, params[:nit], id: "nit_field" %>
               <%= form.hidden_field :provider_id, id: "bill_providers_id" %>
 
               <div class="col-md-12">
@@ -93,81 +92,3 @@
     <p>No tienes permiso para acceder a esta página.</p>
   </div>
 <% end %>
-=======
-<% if recepcion_has_access? %>
-  <div class="form-body">
-    <div class="row">
-      <div class="form-holder">
-        <div class="form-content">
-          <div class="form-items">
-            <h3>Crear Factura</h3>
-            <p>Complete los campos a continuación.</p>
-
-            <%= form_with(model: @bill, local: true, class: 'requires-validation', novalidate: true) do |form| %>
-              <% if @bill.errors.any? %>
-                <div id="error_explanation">
-                  <h2><%= pluralize(@bill.errors.count, "error") %> prohibited this bill from being saved:</h2>
-                  <ul>
-                    <% @bill.errors.full_messages.each do |message| %>
-                      <li><%= message %></li>
-                    <% end %>
-                  </ul>
-                </div>
-              <% end %>
-
-              <div class="col-md-12">
-                <%= form.label :radicado %>
-                <%= form.text_field :radicado, class: 'form-control', placeholder: 'Radicado', required: true %>
-             
-              </div>
-
-              <div class="col-md-12">
-                <%= form.label :SAO %>
-                <%= form.text_field :SAO, class: 'form-control', placeholder: 'SAO', required: true %>
-                
-              </div>
-
-              <div class="col-md-12">
-                <%= form.label :numero_factura %>
-                <%= form.text_field :numero_factura, class: 'form-control', placeholder: 'Número de Factura', required: true %>
-             
-              </div>
-
-              <div class="col-md-12">
-                <%= form.label :tipo_proyecto %>
-                <%= form.text_field :tipo_proyecto, class: 'form-control', placeholder: 'Tipo de Proyecto', required: true %>
-                
-              </div>
-
-              <div class="col-md-12">
-                <%= form.label :fecha_llegada_recepcion %>
-                <%= form.date_select :fecha_llegada_recepcion, class: 'form-control', required: true %>
-              </div>
-            <%if current_user && current_user.state_id == 1%>
-              <div class="col-md-12">
-                <%= form.label :fecha_entrega_compras %>
-                <%= form.date_select :fecha_entrega_compras, class: 'form-control', required: true %>
-              </div>
-            <% else%>
-              <div class="col-md-12">
-                <%= form.label :fecha_entrega_contabilidad %>
-                <%= form.date_select :fecha_entrega_contabilidad, class: 'form-control', required: true %>
-              </div>
-            <%end%>
-              
-
-              <div class="form-button mt-3">
-                <%= form.submit "Crear Factura y enviar", class: 'btn btn-primary' %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<% else %>
-  <div id="no-access-message" style="display: none;">
-    <p>No tienes permiso para acceder a esta página.</p>
-  </div>
-<% end %>
->>>>>>> parent of faa8e29 (Merge pull request #20 from nicolocho03/autocompletar_nit)

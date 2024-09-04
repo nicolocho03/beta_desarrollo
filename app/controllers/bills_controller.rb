@@ -45,7 +45,16 @@ class BillsController < ApplicationController
   def create
     @bill = Bill.new(bill_initial_params)
     @bill.ubication_id = current_user.ubication_id
-
+    
+    provider = Provider.find_by(nit: params[:nit])
+    
+    if provider
+      @bill.provider_id = provider.id
+    else
+      flash.now[:alert] = "Proveedor con NIT #{params[:nit]} no encontrado."
+      return render :new
+    end
+  
     if current_user.state_id == 1 
       @bill.state_id = GeneralState.find_by(nombre: 'Obra').id
       @bill.to_compras!
@@ -53,15 +62,16 @@ class BillsController < ApplicationController
       @bill.state_id = GeneralState.find_by(nombre: 'Oficina').id
       @bill.to_contabilidad_causacion!
     end
-
+  
     @bill.ubication_id = Ubication.find_by(nombre: 'Recepcion').id
-
+  
     if @bill.save
       redirect_to @bill, notice: 'Factura creada y enviada correctamente al siguiente proceso.'
     else
       render :new
     end
   end
+  
 
   def edit
   end
@@ -298,7 +308,7 @@ class BillsController < ApplicationController
   end
 
   def bill_initial_params
-    params.require(:bill).permit(:radicado, :SAO, :numero_factura, :fecha_llegada_recepcion, :tipo_proyecto, :fecha_entrega_compras, :fecha_entrega_contabilidad)
+    params.require(:bill).permit(:radicado, :SAO, :numero_factura, :fecha_llegada_recepcion, :tipo_proyecto, :fecha_entrega_compras, :fecha_entrega_contabilidad, :provider_id)
   end
 
   #Metodos de compras y compras segunda entrega
@@ -324,6 +334,9 @@ class BillsController < ApplicationController
   def bill_params_contabilidad
     params.require(:bill).permit(:bill_id, :state_contabilidad_id, :fecha_entrega_contabilidad, :fecha_entrega_gerencia)
   end
+
+
+  
 
   #Los siguientes metodos se encargan de los estados que tienen las facturas en cada ubicación.
   
