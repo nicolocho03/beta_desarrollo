@@ -9,7 +9,7 @@
         <th>Número de Factura</th>
         <th>Tipo de Proyecto</th>
         <th>Fecha Llegada Recepción</th>
-        <th>Fecha Entrega Contabilidad</th>
+        <th>Fecha llegada Contabilidad</th>
       
       </tr>
     </thead>
@@ -23,6 +23,7 @@
             <td><%= bill.numero_factura %></td>
             <td><%= bill.tipo_proyecto %></td>
             <td><%= bill.fecha_llegada_recepcion %></td>
+            <td><%= bill.fecha_entrega_contabilidad%></td>
             <td>
               <%= form_with model: bill, url: update_contabilidad_pago_bill_path(bill), local: true do |form| %>
                 <%= hidden_field_tag :bill_id, bill.id %>

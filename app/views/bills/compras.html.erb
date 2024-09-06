@@ -1,43 +1,40 @@
 <% if compras_has_access? %>
-<div style="height: 50px;"></div>
-<table>
-  <thead>
-    <tr>
-      <th>Radicado</th>
-      <th>SAO</th>
-      <th>Numero Factura</th>
-      <th>Tipo Proyecto</th>
-      <th>Fecha de Llegada a Compras</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @bills.each do |bill| %>
+  <div style="height: 50px;"></div>
+  <h1>Compras</h1>
+
+  <table>
+    <thead>
       <tr>
-        <td><%= bill.radicado %></td>
-        <td><%= bill.SAO %></td>
-        <td><%= bill.numero_factura %></td>
-        <td><%= bill.tipo_proyecto %></td>
-        <td><%= bill.fecha_entrega_compras %></td>
-        <td>
-          <% if bill.fecha_entrega_sst.blank? %>
-            <!-- Factura que viene de Recepción -->
-            <%= link_to 'Editar', edit_compras_bill_path(bill) %>
-           
-          <% else %>
-            <!-- Factura que viene de SST (segunda vuelta) -->
-            <%= link_to 'Editar Segunda Vuelta', edit_compras_segunda_entrega_bill_path(bill) %>
-          
-          <% end %>
-        </td>
+        <th>Radicado</th>
+        <th>SAO</th>
+        <th>Numero Factura</th>
+        <th>Tipo Proyecto</th>
+        <th>Fecha de Llegada a Compras</th>
+        <th>Editar Fecha Gerencia</th>
+        <th>Acciones</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-  <% else %>
+    </thead>
+    <tbody>
+      <% @bills.each do |bill| %>
+        <%= form_with(model: bill, url: update_compras_bill_path(bill), local: true) do |form| %>
+          <tr>
+            <td><%= bill.radicado %></td>
+            <td><%= bill.SAO %></td>
+            <td><%= bill.numero_factura %></td>
+            <td><%= bill.tipo_proyecto %></td>
+            <td><%= bill.fecha_entrega_compras %></td>
+            <td>
+              <%= form.date_select :fecha_entrega_gerencia %>
+            </td>
+            <td>
+              <%= form.submit "Guardar" %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
   <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
 <% end %>
-
-
-
-
