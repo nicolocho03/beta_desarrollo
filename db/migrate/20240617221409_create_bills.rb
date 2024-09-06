@@ -12,7 +12,6 @@ class CreateBills < ActiveRecord::Migration[7.1]
       t.references :state_gerencia, null: true, foreign_key: { to_table: :specific_states }
       t.references :state_contabilidad, null: true, foreign_key: { to_table: :specific_states }
       t.references :state_sst, null: true, foreign_key: { to_table: :specific_states }
-      t.string :tipo_proyecto
 
       t.timestamps
     end
