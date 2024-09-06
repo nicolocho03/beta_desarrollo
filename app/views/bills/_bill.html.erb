@@ -32,7 +32,7 @@
                     </tr>
                     <tr>
                         <td data-label="Descripción"><strong>Tipo proyecto</strong></td>
-                        <td data-label="Información"><%= bill.tipo_proyecto %></td>
+                        <td data-label="Información"><%= bill.project_type.try(:nombre) %></td>
                     </tr>
                     <tr>
                         <td data-label="Descripción"><strong>Fecha llegada recepción</strong></td>
@@ -91,7 +91,7 @@
                     </tr>
                     <tr>
                         <td data-label="Descripción"><strong>Tipo proyecto</strong></td>
-                        <td data-label="Información"><%= bill.tipo_proyecto %></td>
+                        <td data-label="Información"><%= bill.project_type_id %></td>
                     </tr>
                     <tr>
                         <td data-label="Descripción"><strong>Fecha llegada recepción</strong></td>

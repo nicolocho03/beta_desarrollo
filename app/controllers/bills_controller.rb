@@ -17,6 +17,7 @@ class BillsController < ApplicationController
   before_action :check_access_sst, only: [:sst, :edit_sst]
   before_action :check_access_gerencia, only: [:gerencia, :edit_gerencia]
   before_action :check_access_contabilidad, only: [:contabilidad, :edit_contabilidad]
+  before_action :set_tipo_proyecto_states, only: [:new, :create]
 
 
   #Metodos para la logica basica de facturas, son necesarios para la visualizacion de cada una
@@ -324,7 +325,7 @@ class BillsController < ApplicationController
   end
 
   def bill_initial_params
-    params.require(:bill).permit(:numero_factura, :radicado, :SAO, :tipo_proyecto, :nit, :provider_id, :fecha_llegada_recepcion)
+    params.require(:bill).permit(:numero_factura, :radicado, :SAO, :tipo_proyecto, :nit, :provider_id, :fecha_llegada_recepcion,:project_type_id)
   end
 
   #Metodos de compras y compras segunda entrega
@@ -373,6 +374,10 @@ class BillsController < ApplicationController
   #Estados Contabilidad
     def set_contabilidad_states
       @contabilidad_states = SpecificState.where(nombre: ['Causación', 'Pago'])
+    end 
+
+    def set_tipo_proyecto_states
+      @tipo_proyecto_states = ProjectType.where(nombre: ['Construcción', 'Mantenimiento'])
     end 
 
   #Los siguientes metodos validan el acceso del usuario a las diferentes vistas.

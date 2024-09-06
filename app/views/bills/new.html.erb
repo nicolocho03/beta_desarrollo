@@ -41,9 +41,9 @@
                 <%= form.text_field :numero_factura, class: 'form-control', placeholder: 'Número de Factura', required: true %>
               </div>
 
-              <div class="col-md-12">
-                <%= form.label :tipo_proyecto %>
-                <%= form.text_field :tipo_proyecto, class: 'form-control', placeholder: 'Tipo de Proyecto', required: true %>
+              <div class="field">
+                <%= form.label :project_type_id, "Tipo Proyecto" %>
+                <%= form.collection_select :project_type_id, @tipo_proyecto_states, :id, :nombre %>
               </div>
 
               <div class="col-md-12">
@@ -52,8 +52,8 @@
               </div>
 
               <% if current_user && current_user.state_id == 1 %>
-                <%= form.submit 'Enviar a Compras', name: 'commit', value: 'compras' %>
-                <%= form.submit 'Enviar a SST', name: 'commit', value: 'sst' %>
+                <%= form.submit 'Enviar a Compras', name: 'commit', value: 'Enviar a compras' %>
+                <%= form.submit 'Enviar a SST', name: 'commit', value: 'Enviar a sst' %>
               <% else %>
                 <div class="col-md-12">
                   <%= form.label :fecha_entrega_contabilidad %>

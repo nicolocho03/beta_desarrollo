@@ -22,7 +22,7 @@
             <td><%= bill.radicado %></td>
             <td><%= bill.SAO %></td>
             <td><%= bill.numero_factura %></td>
-            <td><%= bill.tipo_proyecto %></td>
+            <td><%= bill.project_type.try(:nombre)%></td>
             <td><%= bill.fecha_entrega_contabilidad %></td>
             <td>
               <%= form_with model: bill, url: update_contabilidad_causacion_bill_path(bill), local: true do |form| %>
