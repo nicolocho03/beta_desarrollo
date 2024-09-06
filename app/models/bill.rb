@@ -27,7 +27,11 @@ class Bill < ApplicationRecord
       transitions from: :compras, to: :sst
     end
 
-    event :to_compras_segunda_entrega do
+    event :to_sst_from_recepcion do
+      transitions from: :recepcion, to: :sst
+    end 
+
+    event :to_compras_from_sst do
       transitions from: :sst, to: :compras
     end
 

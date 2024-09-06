@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles de la Factura</title>
-
-
 </head>
 <body>
     <div id="main-content">
@@ -44,18 +42,16 @@
                         <td data-label="Descripción"><strong>Fecha entrega compras</strong></td>
                         <td data-label="Información"><%= bill.fecha_entrega_compras.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
                     </tr>
+                    <%if bill.fecha_entrega_compras.blank?%>
                     <tr>
                         <td data-label="Descripción"><strong>Fecha entrega SST</strong></td>
-                        <td data-label="Información"><%= bill.fecha_entrega_sst.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
+                        <td data-label="Información"><%= bill.fecha_entrega_sst.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible.' %></td>
                     </tr>
                     <tr>
                         <td data-label="Descripción"><strong>Estado SST</strong></td>
                         <td data-label="Información"><%= bill.state_sst.try(:nombre) || 'En proceso.' %></td>
                     </tr>
-                    <tr>
-                        <td data-label="Descripción"><strong>Segunda entrega Compras</strong></td>
-                        <td data-label="Información"><%= bill.compras_segunda_fecha.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
-                    </tr>
+                    <%end%>
                     <tr>
                         <td data-label="Descripción"><strong>Fecha entrega Gerencia</strong></td>
                         <td data-label="Información"><%= bill.fecha_entrega_gerencia.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>

@@ -24,13 +24,13 @@
         <td>
           <%= form_with model: bill, url: update_sst_bill_path(bill), local: true do |form| %>
             <div class="field"> 
-              <%= form.date_select :compras_segunda_fecha %>
+              <%= form.date_select :fecha_entrega_compras %>
             </div>
             <div class="field">
               <%= form.label :state_sst_id, "Estado de SST" %>
               <%= form.collection_select :state_sst_id, @sst_states, :id, :nombre, prompt: "Selecciona un estado" %>
             </div>
-            <%= form.submit "Actualizar y enviar a Compras nuevamente" %>
+            <%= form.submit "Actualizar y enviar a Compras." %>
           <% end %>
         </td>
       </tr>

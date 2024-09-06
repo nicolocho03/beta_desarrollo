@@ -45,32 +45,48 @@ class BillsController < ApplicationController
   def create
     @bill = Bill.new(bill_initial_params)
     @bill.ubication_id = current_user.ubication_id
-    
+  
     provider = Provider.find_by(nit: params[:nit])
-    
+  
     if provider
       @bill.provider_id = provider.id
     else
       flash.now[:alert] = "Proveedor con NIT #{params[:nit]} no encontrado."
       return render :new
     end
-  
+    
+    if params[:commit] == 'compras'
+      @bill.fecha_entrega_compras = Date.today
+    elsif params[:commit] == 'sst'
+      @bill.fecha_entrega_sst = Date.today
+    elsif current_user && current_user.state_id != 1
+      @bill.fecha_entrega_contabilidad = Date.today
+    end
+    
     if current_user.state_id == 1 
       @bill.state_id = GeneralState.find_by(nombre: 'Obra').id
-      @bill.to_compras!
     else
       @bill.state_id = GeneralState.find_by(nombre: 'Oficina').id
-      @bill.to_contabilidad_causacion!
     end
   
     @bill.ubication_id = Ubication.find_by(nombre: 'Recepcion').id
   
     if @bill.save
-      redirect_to @bill, notice: 'Factura creada y enviada correctamente al siguiente proceso.'
+      case params[:commit]
+      when 'compras'
+        @bill.to_compras!
+        redirect_to bills_path, notice: 'Factura enviada a Compras exitosamente.'
+      when 'sst'
+        @bill.to_sst_from_recepcion!
+        redirect_to bill_url(@bill), notice: 'Factura guardada y enviada a SST.'
+      else
+        redirect_to @bill, notice: 'Factura creada correctamente.'
+      end
     else
       render :new
     end
   end
+  
   
 
   def edit
@@ -121,8 +137,8 @@ class BillsController < ApplicationController
 
   def update_compras
     if @bill.update(bill_params_compras)
-      @bill.to_sst!
-      redirect_to bill_url(@bill), notice: "Factura guardada en compras y enviada a SST."
+      @bill.to_gerencia!
+      redirect_to bill_url(@bill), notice: "Factura actualizada en compras y enviada a Gerencia."
     else
       render :edit_compras, status: :unprocessable_entity
     end
@@ -160,8 +176,8 @@ class BillsController < ApplicationController
   def update_sst
     @bill = Bill.find(params[:id])
     if @bill.update(bill_params_sst)
-      @bill.to_compras_segunda_entrega!
-      redirect_to sst_bills_path, notice: "Factura actualizada y enviada a Compras nuevamente."
+      @bill.to_compras_from_sst!
+      redirect_to sst_bills_path, notice: "Factura actualizada y enviada a Compras."
     else
       render :sst
     end
@@ -180,8 +196,8 @@ class BillsController < ApplicationController
 
   def update_sst
     if @bill.update(bill_params_sst)
-      @bill.to_compras_segunda_entrega!
-      redirect_to sst_bills_path, notice: "Factura actualizada y enviada a Compras nuevamente."
+      @bill.to_compras_from_sst!
+      redirect_to sst_bills_path, notice: "Factura actualizada y enviada a Compras."
     else
       render :edit_sst
     end
@@ -308,12 +324,12 @@ class BillsController < ApplicationController
   end
 
   def bill_initial_params
-    params.require(:bill).permit(:radicado, :SAO, :numero_factura, :fecha_llegada_recepcion, :tipo_proyecto, :fecha_entrega_compras, :fecha_entrega_contabilidad, :provider_id)
+    params.require(:bill).permit(:numero_factura, :radicado, :SAO, :tipo_proyecto, :nit, :provider_id, :fecha_llegada_recepcion)
   end
 
   #Metodos de compras y compras segunda entrega
   def bill_params_compras
-    params.require(:bill).permit(:fecha_entrega_sst)
+    params.require(:bill).permit(:fecha_entrega_sst, :fecha_entrega_gerencia)
   end
 
   def bill_params_compras_segunda_entrega
@@ -322,7 +338,7 @@ class BillsController < ApplicationController
   
   #Metodos SST
   def bill_params_sst
-    params.require(:bill).permit(:compras_segunda_fecha, :state_sst_id)
+    params.require(:bill).permit(:fecha_entrega_compras, :state_sst_id)
   end
 
   #Metodos Gerencia

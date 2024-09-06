@@ -7,8 +7,10 @@
         <th>SAO</th>
         <th>Número de Factura</th>
         <th>Tipo de Proyecto</th>
-        <th>Fecha Llegada Recepción</th>
-        <th>Fecha Entrega Contabilidad</th>
+        <th>Fecha Llegada Contabilidad</th>
+        <% if current_user.state_id == 2 %>
+        <th>Fecha Entrega Gerencia</th>
+        <% end %>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -21,7 +23,7 @@
             <td><%= bill.SAO %></td>
             <td><%= bill.numero_factura %></td>
             <td><%= bill.tipo_proyecto %></td>
-            <td><%= bill.fecha_llegada_recepcion %></td>
+            <td><%= bill.fecha_entrega_contabilidad %></td>
             <td>
               <%= form_with model: bill, url: update_contabilidad_causacion_bill_path(bill), local: true do |form| %>
                 <%= hidden_field_tag :bill_id, bill.id %>
@@ -29,10 +31,15 @@
                   <%= form.label :state_contabilidad_id, "Estado Contabilidad" %>
                   <%= form.collection_select :state_contabilidad_id, @contabilidad_states, :id, :nombre %>
                 </div>
-                <div class="field">
-                <%= form.label :fecha_entrega_gerencia, "Entrega Gerencia" %>
-                <%= form.date_select :fecha_entrega_gerencia %>
-              </div>
+                
+                
+                <% if current_user.state_id == 2 %>
+                  <div class="field">
+                    <%= form.label :fecha_entrega_gerencia, "Entrega Gerencia" %>
+                    <%= form.date_select :fecha_entrega_gerencia %>
+                  </div>
+                <% end %>
+
                 <div class="actions">
                   <%= form.submit "Actualizar" %>
                 </div>
@@ -50,6 +57,7 @@
 <% else %>
   <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
 <% end %>
+
 
 
 
