@@ -18,6 +18,14 @@
                 </thead>
                 <tbody>
                     <% if bill.state_id == 1 %>
+                    <tr>
+                        <td data-label="Descripción"><strong>Nit</strong></td>
+                        <td data-label="Información"><%= bill.provider&.nit %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Nombre del Proveedor</strong></td>
+                        <td data-label="Información"><%= bill.provider&.name %></td>
+                    </tr>
                      <tr>
                         <td data-label="Descripción"><strong>Radicado</strong></td>
                         <td data-label="Información"><%= bill.radicado %></td>
@@ -42,7 +50,7 @@
                         <td data-label="Descripción"><strong>Fecha entrega compras</strong></td>
                         <td data-label="Información"><%= bill.fecha_entrega_compras.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
                     </tr>
-                    <%if bill.fecha_entrega_compras.blank?%>
+                    
                     <tr>
                         <td data-label="Descripción"><strong>Fecha entrega SST</strong></td>
                         <td data-label="Información"><%= bill.fecha_entrega_sst.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible.' %></td>
@@ -51,7 +59,7 @@
                         <td data-label="Descripción"><strong>Estado SST</strong></td>
                         <td data-label="Información"><%= bill.state_sst.try(:nombre) || 'En proceso.' %></td>
                     </tr>
-                    <%end%>
+                  
                     <tr>
                         <td data-label="Descripción"><strong>Fecha entrega Gerencia</strong></td>
                         <td data-label="Información"><%= bill.fecha_entrega_gerencia.try(:strftime, '%d/%m/%Y') || 'Fecha no disponible' %></td>
@@ -78,6 +86,14 @@
                     </tr>
                  <% elsif bill.state_id == 2 %>
                     <tr>
+                        <td data-label="Descripción"><strong>Nit</strong></td>
+                        <td data-label="Información"><%= bill.provider&.nit %></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Descripción"><strong>Nombre del Proveedor</strong></td>
+                        <td data-label="Información"><%= bill.provider&.name %></td>
+                    </tr>
+                    <tr>
                         <td data-label="Descripción"><strong>Radicado</strong></td>
                         <td data-label="Información"><%= bill.radicado %></td>
                     </tr>
@@ -91,7 +107,7 @@
                     </tr>
                     <tr>
                         <td data-label="Descripción"><strong>Tipo proyecto</strong></td>
-                        <td data-label="Información"><%= bill.project_type_id %></td>
+                        <td data-label="Información"><%= bill.project_type.try(:nombre) %></td>
                     </tr>
                     <tr>
                         <td data-label="Descripción"><strong>Fecha llegada recepción</strong></td>

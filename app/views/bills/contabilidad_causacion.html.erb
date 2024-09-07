@@ -25,24 +25,28 @@
             <td><%= bill.project_type.try(:nombre)%></td>
             <td><%= bill.fecha_entrega_contabilidad %></td>
             <td>
+              <td>
               <%= form_with model: bill, url: update_contabilidad_causacion_bill_path(bill), local: true do |form| %>
                 <%= hidden_field_tag :bill_id, bill.id %>
-                <div class="field">
-                  <%= form.label :state_contabilidad_id, "Estado Contabilidad" %>
-                  <%= form.collection_select :state_contabilidad_id, @contabilidad_states, :id, :nombre %>
-                </div>
-                
-                
+              
                 <% if current_user.state_id == 2 %>
                   <div class="field">
                     <%= form.label :fecha_entrega_gerencia, "Entrega Gerencia" %>
                     <%= form.date_select :fecha_entrega_gerencia %>
                   </div>
                 <% end %>
-
+                </td>
+                <td>
+                <div class="field">
+                  <%= form.label :state_contabilidad_id, "Estado Contabilidad" %>
+                  <%= form.collection_select :state_contabilidad_id, @contabilidad_states, :id, :nombre %>
+                </div>
+                </td>
+              <td>
                 <div class="actions">
                   <%= form.submit "Actualizar" %>
                 </div>
+              </td>
               <% end %>
             </td>
           </tr>

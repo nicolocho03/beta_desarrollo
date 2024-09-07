@@ -10,6 +10,7 @@
       <th>Tipo de Proyecto</th>
       <th>Fecha Llegada a SST</th>
       <th>Fecha Entrega Compras</th>
+      <th>Estado de SST</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -20,17 +21,20 @@
         <td><%= bill.SAO %></td>
         <td><%= bill.numero_factura %></td>
         <td><%= bill.project_type.try(:nombre) %></td>
-        <td><%= bill.fecha_entrega_sst %></td>
+        <td><%= bill.fecha_entrega_sst.try(:strftime, '%d/%m/%Y') %></td>
         <td>
           <%= form_with model: bill, url: update_sst_bill_path(bill), local: true do |form| %>
             <div class="field"> 
               <%= form.date_select :fecha_entrega_compras %>
             </div>
-            <div class="field">
-              <%= form.label :state_sst_id, "Estado de SST" %>
-              <%= form.collection_select :state_sst_id, @sst_states, :id, :nombre, prompt: "Selecciona un estado" %>
-            </div>
-            <%= form.submit "Actualizar y enviar a Compras." %>
+        </td>
+        <td>
+          <div class="field">
+            <%= form.collection_select :state_sst_id, @sst_states, :id, :nombre, prompt: "Selecciona un estado" %>
+          </div>
+        </td>
+        <td>
+          <%= form.submit "Actualizar y enviar a Compras" %>
           <% end %>
         </td>
       </tr>

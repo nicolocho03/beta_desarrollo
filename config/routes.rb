@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   resources :ubications
   
   get "up" => "rails/health#show", as: :rails_health_check
+  get '/find_provider', to: 'providers#find_by_nit'
 end
 
 

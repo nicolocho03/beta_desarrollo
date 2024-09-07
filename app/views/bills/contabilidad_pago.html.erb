@@ -10,6 +10,7 @@
         <th>Tipo de Proyecto</th>
         <th>Fecha Llegada Recepción</th>
         <th>Fecha llegada Contabilidad</th>
+        <th>Estado Contabilidad</th>
       
       </tr>
     </thead>
@@ -24,6 +25,7 @@
             <td><%= bill.project_type.try(:nombre) %></td>
             <td><%= bill.fecha_llegada_recepcion %></td>
             <td><%= bill.fecha_entrega_contabilidad%></td>
+            <td><%= bill.state_contabilidad.try(:nombre)%></td>
             <td>
               <%= form_with model: bill, url: update_contabilidad_pago_bill_path(bill), local: true do |form| %>
                 <%= hidden_field_tag :bill_id, bill.id %>
