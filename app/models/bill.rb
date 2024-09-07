@@ -7,6 +7,7 @@ class Bill < ApplicationRecord
   belongs_to :ubication
   belongs_to :project_type
   belongs_to :general_state, class_name: 'GeneralState', foreign_key: 'state_id'
+  belongs_to :provider
  
   validates :ubication_id, presence: true
   validates :state_id, presence: true

@@ -8,8 +8,10 @@
         <th>SAO</th>
         <th>Número de Factura</th>
         <th>Tipo de Proyecto</th>
-        <th>Fecha Llegada Recepción</th>
+        <th>Fecha Llegada Gerencia</th>
         <th>Fecha Entrega Contabilidad</th>
+        <th>Estado Gerencia</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -21,19 +23,24 @@
             <td><%= bill.SAO %></td>
             <td><%= bill.numero_factura %></td>
             <td><%= bill.project_type.try(:nombre)%></td>
-            <td><%= bill.fecha_llegada_recepcion %></td>
+            <td><%= bill.fecha_entrega_gerencia %></td>
             <td>
            <%= form_with(model: bill, url: update_gerencia_bill_path(bill), method: :patch) do |f| %>
+              
               <div class="field">
                 <%= f.label :fecha_entrega_contabilidad, "Entrega Contabilidad" %>
                 <%= f.date_select :fecha_entrega_contabilidad %>
               </div>
-              <div class="field">
-                <%= f.label :state_gerencia_id, "Estado Gerencia" %>
+            </td>
+            <td>
+             <div class="field">
                 <%= f.collection_select :state_gerencia_id, @gerencia_states, :id, :nombre %>
               </div>
+            </td>
+            <td>
               <%= f.submit "Actualizar y enviar a contabilidad" %>
             <% end %>
+            </td>
             </td>
           </tr>
         <% end %>
@@ -47,3 +54,5 @@
 <% else %>
   <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
 <% end %>
+
+

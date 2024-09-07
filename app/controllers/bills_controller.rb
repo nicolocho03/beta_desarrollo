@@ -33,10 +33,12 @@ class BillsController < ApplicationController
   end
   
   def index
-    @bills = Bill.all
+    @bills = Bill.includes(:provider).all
   end
 
   def show
+    @bill = Bill.includes(:provider).find(params[:id])
+    @bill
   end
 
   def new
@@ -45,44 +47,41 @@ class BillsController < ApplicationController
 
   def create
     @bill = Bill.new(bill_initial_params)
-    @bill.ubication_id = current_user.ubication_id
+
+    @bill.ubication_id = Ubication.find_by(nombre: 'Recepcion')&.id
   
     provider = Provider.find_by(nit: params[:nit])
-  
     if provider
       @bill.provider_id = provider.id
     else
       flash.now[:alert] = "Proveedor con NIT #{params[:nit]} no encontrado."
       return render :new
     end
-    
-    if params[:commit] == 'compras'
-      @bill.fecha_entrega_compras = Date.today
-    elsif params[:commit] == 'sst'
-      @bill.fecha_entrega_sst = Date.today
-    elsif current_user && current_user.state_id != 1
+
+    if Bill.exists?(radicado: @bill.radicado, SAO: @bill.SAO, numero_factura: @bill.numero_factura)
+      flash.now[:alert] = "Ya existe una factura con el mismo Radicado, SAO o Número de Factura."
+      return render :new
+    end
+   
+    if current_user.state_id == 1
+      @bill.state_id = GeneralState.find_by(nombre: 'Obra')&.id
+  
+      case params[:commit]
+      when 'Enviar a compras'
+        @bill.to_compras! if @bill.may_to_compras?
+        @bill.fecha_entrega_compras = Date.today
+      when 'Enviar a SST'
+        @bill.to_sst_from_recepcion! if @bill.may_to_sst_from_recepcion?
+        @bill.fecha_entrega_sst = Date.today
+      end
+    else
+      @bill.state_id = GeneralState.find_by(nombre: 'Oficina')&.id
+      @bill.to_contabilidad_causacion! if @bill.may_to_contabilidad_causacion?
       @bill.fecha_entrega_contabilidad = Date.today
     end
-    
-    if current_user.state_id == 1 
-      @bill.state_id = GeneralState.find_by(nombre: 'Obra').id
-    else
-      @bill.state_id = GeneralState.find_by(nombre: 'Oficina').id
-    end
-  
-    @bill.ubication_id = Ubication.find_by(nombre: 'Recepcion').id
   
     if @bill.save
-      case params[:commit]
-      when 'compras'
-        @bill.to_compras!
-        redirect_to bills_path, notice: 'Factura enviada a Compras exitosamente.'
-      when 'sst'
-        @bill.to_sst_from_recepcion!
-        redirect_to bill_url(@bill), notice: 'Factura guardada y enviada a SST.'
-      else
-        redirect_to @bill, notice: 'Factura creada correctamente.'
-      end
+      redirect_to @bill, notice: 'Factura creada y enviada correctamente.'
     else
       render :new
     end
@@ -110,6 +109,15 @@ class BillsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to bills_url, notice: "Factura eliminada." }
       format.json { head :no_content }
+    end
+  end
+
+  def find_provider
+    provider = Provider.find_by(nit: params[:nit])
+    if provider
+      render json: { name: provider.name }
+    else
+      render json: { name: '' }
     end
   end
 
@@ -221,15 +229,16 @@ class BillsController < ApplicationController
       when 1
         if @bill.aasm_state == 'gerencia'
           @bill.to_contabilidad_causacion_from_gerencia!
-          redirect_to gerencia_bills_path, notice: 'Factura actualizada y enviada a causación de obra.'
+          redirect_to bill_url(@bill), notice: "Factura actualizada en gerencia y enviada a Contabilidad."
+          
         else
           @bills = Bill.where(state_gerencia_id: 1)
           render :gerencia
         end
       when 2
         if @bill.aasm_state == 'gerencia'
-          @bill.to_contabilidad_from_gerencia!
-          redirect_to gerencia_bills_path, notice: 'Factura actualizada y enviada a pago de oficina.'
+          @bill.to_contabilidad_causacion_from_gerencia!
+          redirect_to bill_url(@bill), notice: "Factura actualizada en gerencia y enviada a Contabilidad."
         else
           @bills = Bill.where(state_gerencia_id: 2)
           render :gerencia
@@ -325,7 +334,7 @@ class BillsController < ApplicationController
   end
 
   def bill_initial_params
-    params.require(:bill).permit(:numero_factura, :radicado, :SAO, :tipo_proyecto, :nit, :provider_id, :fecha_llegada_recepcion,:project_type_id)
+    params.require(:bill).permit(:numero_factura, :radicado, :SAO, :nit, :provider_id, :fecha_llegada_recepcion,:project_type_id, :fecha_entrega_compras, :fecha_entrega_sst)
   end
 
   #Metodos de compras y compras segunda entrega

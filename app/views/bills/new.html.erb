@@ -7,6 +7,7 @@
             <h3>Crear Factura</h3>
             <p>Complete los campos a continuación.</p>
             <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+            <%= javascript_include_tag 'providers' %>
 
             <%= form_with(model: @bill, local: true, class: 'requires-validation', novalidate: true) do |form| %>
               <% if @bill.errors.any? %>
@@ -24,6 +25,11 @@
                 <%= form.label :nit, "NIT del Proveedor" %>
                 <%= text_field_tag :nit, params[:nit], id: "nit_field" %>
                 <%= form.hidden_field :provider_id, id: "bill_providers_id" %>
+              </div>
+
+              <div class="field">
+                <%= form.label :provider_name, "Nombre del Proveedor" %>
+                <%= form.text_field :provider_name, id: 'provider-name', readonly: true %>
               </div>
 
               <div class="col-md-12">
@@ -53,12 +59,13 @@
 
               <% if current_user && current_user.state_id == 1 %>
                 <%= form.submit 'Enviar a Compras', name: 'commit', value: 'Enviar a compras' %>
-                <%= form.submit 'Enviar a SST', name: 'commit', value: 'Enviar a sst' %>
+                <%= form.submit 'Enviar a SST', name: 'commit', value: 'Enviar a SST' %>
               <% else %>
-                <div class="col-md-12">
-                  <%= form.label :fecha_entrega_contabilidad %>
-                  <%= form.date_select :fecha_entrega_contabilidad, class: 'form-control', required: true %>
-                </div>
+               
+
+                <div class="form-button mt-3">
+                <%= form.submit "Crear Factura y enviar", class: 'btn btn-primary' %>
+              </div>
               <% end %>
               <%= hidden_field_tag :bill_providers_id, nil, id: 'bill_providers_id' %>
             <% end %>

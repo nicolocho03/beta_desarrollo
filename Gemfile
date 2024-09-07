@@ -78,3 +78,4 @@ gem 'aasm', '~> 5.5'
 
 gem 'roo'
 
+gem 'byebug', '~> 11.1', '>= 11.1.3'
