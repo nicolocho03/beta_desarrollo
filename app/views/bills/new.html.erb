@@ -21,15 +21,16 @@
                 </div>
               <% end %>
 
-              <div class="col-md-12">
-                <%= form.label :nit, "NIT del Proveedor" %>
-                <%= text_field_tag :nit, params[:nit], id: "nit_field" %>
-                <%= form.hidden_field :provider_id, id: "bill_providers_id" %>
-              </div>
+             <div class="col-md-12">
+              <%= form.label :nit, "NIT del Proveedor" %>
+              <%= text_field_tag :nit, params[:nit], id: "nit_field", autocomplete: "off" %>
+              <%= form.hidden_field :provider_id, id: "bill_providers_id" %>
+              <div id="nit_suggestions" class="autocomplete-suggestions"></div> 
+            </div>
 
               <div class="field">
                 <%= form.label :provider_name, "Nombre del Proveedor" %>
-                <%= form.text_field :provider_name, id: 'provider-name', readonly: true %>
+                <%= form.text_field :provider_name, id: 'provider-name', placeholder: 'Proveedor', readonly: true %>
               </div>
 
               <div class="col-md-12">

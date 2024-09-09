@@ -3,6 +3,7 @@
 //= require_tree .
 //= require sidebar
 //= require providers
+//= require autocomplete_nit
 
   
 
