@@ -7,4 +7,14 @@ class ProvidersController < ApplicationController
       render json: { name: nil }
     end
   end
+
+  def autocomplete
+    # Busca proveedores cuyo NIT comience con los caracteres ingresados
+    if params[:nit].present?
+      providers = Provider.where("nit LIKE ?", "#{params[:nit]}%").limit(5) # Limita a 5 resultados
+      render json: providers.pluck(:nit, :name) # Devuelve solo el NIT y el nombre
+    else
+      render json: []
+    end
+  end
 end

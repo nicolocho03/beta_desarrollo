@@ -44,6 +44,8 @@ Rails.application.routes.draw do
   
   get "up" => "rails/health#show", as: :rails_health_check
   get '/find_provider', to: 'providers#find_by_nit'
+  get 'autocomplete_providers', to: 'providers#autocomplete'
+
 end
 
 
