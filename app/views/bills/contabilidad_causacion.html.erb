@@ -1,68 +1,48 @@
 <% if contabilidad_has_access? %>
 <div style="height: 50px;"></div>
-  <table>
-    <thead>
-      <tr>
-        <th>Radicado</th>
-        <th>SAO</th>
-        <th>Número de Factura</th>
-        <th>Tipo de Proyecto</th>
-        <th>Fecha Llegada Contabilidad</th>
-        <% if current_user.state_id == 2 %>
-        <th>Fecha Entrega Gerencia</th>
-        <% end %>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% filtered_bills = @bills.select { |bill| bill.state_id == current_user.state_id } %>
-      <% if filtered_bills.present? %>
-        <% filtered_bills.each do |bill| %>
-          <tr>
-            <td><%= bill.radicado %></td>
-            <td><%= bill.SAO %></td>
-            <td><%= bill.numero_factura %></td>
-            <td><%= bill.project_type.try(:nombre)%></td>
-            <td><%= bill.fecha_entrega_contabilidad %></td>
-            <td>
-              <td>
-              <%= form_with model: bill, url: update_contabilidad_causacion_bill_path(bill), local: true do |form| %>
-                <%= hidden_field_tag :bill_id, bill.id %>
-              
-                <% if current_user.state_id == 2 %>
-                  <div class="field">
-                    <%= form.label :fecha_entrega_gerencia, "Entrega Gerencia" %>
-                    <%= form.date_select :fecha_entrega_gerencia %>
-                  </div>
-                <% end %>
-                </td>
-                <td>
-                <div class="field">
-                  <%= form.label :state_contabilidad_id, "Estado Contabilidad" %>
-                  <%= form.collection_select :state_contabilidad_id, @contabilidad_states, :id, :nombre %>
-                </div>
-                </td>
-              <td>
-                <div class="actions">
-                  <%= form.submit "Actualizar" %>
-                </div>
-              </td>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      <% else %>
+<table>
+  <thead>
+    <tr>
+      <th>Radicado</th>
+      <th>SAO</th>
+      <th>Número de Factura</th>
+      <th>Tipo de Proyecto</th>
+      <th>Fecha Llegada Contabilidad</th>
+      <th>Fecha Entrega Gerencia</th>
+      <th>Estado Contabilidad</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% filtered_bills = @bills.select { |bill| bill.state_id == current_user.state_id } %>
+    <% if filtered_bills.present? %>
+      <% filtered_bills.each do |bill| %>
         <tr>
-          <td colspan="7">No hay facturas en causación.</td>
+          <td><%= bill.radicado %></td>
+          <td><%= bill.SAO %></td>
+          <td><%= bill.numero_factura %></td>
+          <td><%= bill.project_type.try(:nombre) %></td>
+          <td><%= bill.fecha_entrega_contabilidad %></td>
+          <td>
+            <%= form_with model: bill, url: update_contabilidad_causacion_bill_path(bill), local: true do |form| %>
+              <div>
+                <%= form.date_select :fecha_entrega_gerencia, default: bill.fecha_entrega_gerencia %>
+              </div>
+              <div>
+                <%= form.collection_select :state_contabilidad_id, @contabilidad_states, :id, :nombre %>
+              </div>
+              <%= form.submit "Actualizar" %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
-    </tbody>
-  </table>
+    <% else %>
+      <tr>
+        <td colspan="8">No hay facturas en causación.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 <% else %>
-  <div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
+<div id="permission-alert" data-message="No tienes permiso para acceder a esta vista" style="display: none;"></div>
 <% end %>
-
-
-
-
-

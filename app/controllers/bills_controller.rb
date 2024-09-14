@@ -237,7 +237,7 @@ class BillsController < ApplicationController
         end
       when 2
         if @bill.aasm_state == 'gerencia'
-          @bill.to_contabilidad_causacion_from_gerencia!
+          @bill.to_contabilidad_from_gerencia!
           redirect_to bill_url(@bill), notice: "Factura actualizada en gerencia y enviada a Contabilidad."
         else
           @bills = Bill.where(state_gerencia_id: 2)
@@ -288,7 +288,7 @@ class BillsController < ApplicationController
   end
 
   def update_contabilidad_causacion
-    @bill = Bill.find(params[:bill_id])
+    @bill = Bill.find(params[:id])
     
     if @bill.update(bill_params_contabilidad)
       case current_user.state_id
@@ -313,6 +313,7 @@ class BillsController < ApplicationController
       render :contabilidad_causacion
     end
   end
+  
 
   def update_contabilidad_pago
     if @bill.update(bill_params_contabilidad)
@@ -358,7 +359,7 @@ class BillsController < ApplicationController
 
   #Metodos Contabilidad
   def bill_params_contabilidad
-    params.require(:bill).permit(:bill_id, :state_contabilidad_id, :fecha_entrega_contabilidad, :fecha_entrega_gerencia)
+    params.require(:bill).permit(:bill_id, :state_contabilidad_id, :fecha_entrega_contabilidad, :fecha_entrega_gerencia, :state_gerencia_id)
   end
 
 
