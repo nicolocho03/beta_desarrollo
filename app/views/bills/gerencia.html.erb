@@ -28,8 +28,8 @@
            <%= form_with(model: bill, url: update_gerencia_bill_path(bill), method: :patch) do |f| %>
               
               <div class="field">
-                <%= f.label :fecha_entrega_contabilidad, "Entrega Contabilidad" %>
-                <%= f.date_select :fecha_entrega_contabilidad %>
+              <%= f.date_field :fecha_entrega_contabilidad, value: f.object.fecha_entrega_contabilidad, class: 'form-control' %>
+                
               </div>
             </td>
             <td>

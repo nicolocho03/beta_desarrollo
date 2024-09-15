@@ -59,7 +59,7 @@ class BillsController < ApplicationController
     end
 
     if Bill.exists?(radicado: @bill.radicado, SAO: @bill.SAO, numero_factura: @bill.numero_factura)
-      flash.now[:alert] = "Ya existe una factura con el mismo Radicado, SAO o Número de Factura."
+      flash.now[:alert] = "Ya existe una factura con el mismo Radicado, SAO y Número de Factura."
       return render :new
     end
    
@@ -81,7 +81,7 @@ class BillsController < ApplicationController
     end
   
     if @bill.save
-      redirect_to @bill, notice: 'Factura creada y enviada correctamente.'
+      redirect_to @bill, notice: 'Factura creada y enviada correctamente al proceso seleccionado.'
     else
       render :new
     end
@@ -359,11 +359,8 @@ class BillsController < ApplicationController
 
   #Metodos Contabilidad
   def bill_params_contabilidad
-    params.require(:bill).permit(:bill_id, :state_contabilidad_id, :fecha_entrega_contabilidad, :fecha_entrega_gerencia, :state_gerencia_id)
+    params.require(:bill).permit(:bill_id, :state_contabilidad_id, :fecha_entrega_contabilidad, :fecha_entrega_gerencia)
   end
-
-
-  
 
   #Los siguientes metodos se encargan de los estados que tienen las facturas en cada ubicación.
   

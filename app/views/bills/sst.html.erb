@@ -25,7 +25,7 @@
         <td>
           <%= form_with model: bill, url: update_sst_bill_path(bill), local: true do |form| %>
             <div class="field"> 
-              <%= form.date_select :fecha_entrega_compras %>
+               <%= form.date_field :fecha_entrega_compras, value: form.object.fecha_entrega_compras, class: 'form-control' %>
             </div>
         </td>
         <td>

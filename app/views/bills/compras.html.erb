@@ -1,6 +1,5 @@
 <% if compras_has_access? %>
   <div style="height: 50px;"></div>
-  <h1>Compras</h1>
 
   <table>
     <thead>
@@ -24,7 +23,8 @@
             <td><%= bill.project_type.try(:nombre) %></td>
             <td><%= bill.fecha_entrega_compras %></td>
             <td>
-              <%= form.date_select :fecha_entrega_gerencia %>
+              <%= form.date_field :fecha_entrega_gerencia, value: form.object.fecha_entrega_gerencia, class: 'form-control' %>
+
             </td>
             <td>
               <%= form.submit "Enviar a Gerencia" %>
